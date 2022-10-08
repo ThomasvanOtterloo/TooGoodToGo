@@ -46,11 +46,17 @@ namespace Infrastructure
                 new Student { Id = 1, Name = "Thomas", PhoneNumber = "06-11225039" },
                 new Student { Id = 2, Name = "Roberto", PhoneNumber = "06-11225031" }
             );
-            
-            //modelBuilder.Entity<Student>().HasData(
-            //    new Student { Id = 1, Name = "Thomas", BirthDate = new DateOnly(1999, 12, 29), City = City.Breda, Login = { Email = "test@gmail.com", Password = "qwerty!123" }, PhoneNumber = "06-11225039" },
-            //    new Student { Id = 2, Name = "Roberto", BirthDate = new DateOnly(1999, 12, 29), City = City.Breda, Login = { Email = "test1@gmail.com", Password = "qwerty!123" }, PhoneNumber = "06-11225031" }
-            //);
+
+            modelBuilder.Entity<Student>().HasData(
+                new Student { Id = 1, Name = "thomas", BirthDate = new DateOnly(1999, 12, 29), City = City.Breda}
+                
+            );
+
+            modelBuilder.Entity<Employee>().HasData(
+                new Employee { Id = 1, Name = "Elsa", EmployeeNumber = 8392, });
+
+            // student and employee need to be able to log in, with a role assigned to them. How?
+            // And the data should end up in aspNetUsers Table and aspNetRoles i think?
 
         }
     }

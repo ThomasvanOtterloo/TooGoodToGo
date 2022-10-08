@@ -1,22 +1,24 @@
 ﻿using Core.Domain.Services;
 using Infrastructure;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portal.Models;
 using System.Diagnostics;
+
 
 namespace Portal.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        
+        private readonly SignInManager<IdentityUser> signInManager;
         private readonly PackageDbContext packageDbContext;
 
-        public HomeController(ILogger<HomeController> logger, IPackageRepository packageRepository, PackageDbContext packageDbContext )
+        public HomeController(ILogger<HomeController> logger, SignInManager<IdentityUser> signInManager, PackageDbContext packageDbContext )
         {
             _logger = logger;
-           
+            this.signInManager = signInManager;
             this.packageDbContext = packageDbContext;
         }
        
@@ -61,7 +63,7 @@ namespace Portal.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-      
        
-}
+
+    }
 }
