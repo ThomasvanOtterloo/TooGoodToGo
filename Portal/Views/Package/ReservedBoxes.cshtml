@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Core.Domain.Package>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+}
+
+
+
+<!-- ======= Our Services Section ======= -->
+<section id="services" class="services sections-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Our Services</h2>
+            <p>Hello ${Student.Name} The following packages are reserved to you. Please be on time to pick them up. Remember that you'll have to pay at the given location</p>
+        </div>
+
+       
+@*
+            <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+                @foreach (var item in Model)
+                {
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="service-item  position-relative">
+                            <div class="icon">
+
+                                <img src="~/images/PickUpIcon.png" alt="PickUpIcon" width="40" height="40">
+                                <i>@Html.DisplayFor(modelItem => item.PickUp)</i>
+                            </div>
+                            <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                            <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- End Service Item -->
+                }
+            </div>*@
+
+
+
+    </div>
+</section><!-- End Our Services Section -->
