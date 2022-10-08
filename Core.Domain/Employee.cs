@@ -7,6 +7,6 @@
 		public int EmployeeNumber { get; set; }
 		public Canteen? Canteen { get; set; }
 
-        public Login Login { get; set; }
+        //public Login Login { get; set; }
     }
 }

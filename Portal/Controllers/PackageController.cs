@@ -77,7 +77,7 @@ namespace Portal.Controllers
         //[Authorize]
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Discription,IsAdult")] Package package)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,IsAdult")] Package package)
         {
             if (ModelState.IsValid)
             {

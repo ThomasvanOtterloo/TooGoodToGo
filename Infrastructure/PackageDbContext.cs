@@ -43,9 +43,14 @@ namespace Infrastructure
             );
 
             modelBuilder.Entity<Student>().HasData(
-                new Student { Id = 1, Name = "Thomas", Login = { Email = "Thomas@gmail.com", Password = "" },  PhoneNumber = "06-11225039" },
-                new Student { Id = 2, Name = "Roberto" }
+                new Student { Id = 1, Name = "Thomas", PhoneNumber = "06-11225039" },
+                new Student { Id = 2, Name = "Roberto", PhoneNumber = "06-11225031" }
             );
+            
+            //modelBuilder.Entity<Student>().HasData(
+            //    new Student { Id = 1, Name = "Thomas", BirthDate = new DateOnly(1999, 12, 29), City = City.Breda, Login = { Email = "test@gmail.com", Password = "qwerty!123" }, PhoneNumber = "06-11225039" },
+            //    new Student { Id = 2, Name = "Roberto", BirthDate = new DateOnly(1999, 12, 29), City = City.Breda, Login = { Email = "test1@gmail.com", Password = "qwerty!123" }, PhoneNumber = "06-11225031" }
+            //);
 
         }
     }

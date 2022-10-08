@@ -12,7 +12,7 @@ namespace Portal.Models
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-
+        
 
         [BindProperty]
         public Register Model { get; set; }

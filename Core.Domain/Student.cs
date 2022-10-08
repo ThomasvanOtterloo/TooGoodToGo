@@ -11,7 +11,7 @@ namespace Core.Domain
         public string? PhoneNumber { get; set; }
         public City City { get; set; }
 
-        public Login Login { get; set;}
+        //public Login Login { get; set;}
         
     }
 }
