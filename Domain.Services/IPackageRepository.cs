@@ -8,8 +8,11 @@
         IEnumerable<Package> GetAllSoldPackages(Student student);
 
         Package GetPackageById(int id);
-        Task AddPackage(Package package);
+        Task CreatePackage(Package package);
 
-        Task RemovePackage(Package package);
+        Task DeletePackage(int id);
+
+        Task UpdatePackage(Package package);
+        
     }
 }

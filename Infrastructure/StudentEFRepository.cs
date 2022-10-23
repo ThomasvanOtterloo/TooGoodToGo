@@ -1,5 +1,6 @@
 ﻿using Core.Domain;
-using Domain.Services;
+using Core.Domain.Services;
+
 
 namespace Infrastructure
 {
@@ -17,7 +18,7 @@ namespace Infrastructure
             return _context.Students.First(s => s.Id == id);
         }
 
-        public IEnumerable<Student> GetStudents()
+        public IEnumerable<Student> GetAllStudents()
         {
             return _context.Students.ToList();
         }
@@ -29,6 +30,24 @@ namespace Infrastructure
             if (student.BirthDate > reference) return null;
             return student;
 
+        }
+
+        public Task CreateStudent(Student student)
+        {
+            _context.Students.Add(student);
+            return Task.CompletedTask;
+        }
+
+        public Task UpdateStudent(Student student)
+        {
+            _context.Students.Update(student);
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteStudent(int id)
+        {
+            _context.Students.Remove(_context.Students.First(s => s.Id == id));
+            return Task.CompletedTask;
         }
     }
 }

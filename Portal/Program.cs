@@ -1,5 +1,4 @@
 using Core.Domain.Services;
-using Domain.Services;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -26,6 +25,9 @@ builder.Services.AddScoped<ICanteenRepository, CanteenEFRepository>();
 builder.Services.AddScoped<IPackageRepository, PackageEFRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentEFRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeEFRepository>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<IProductRepository, ProductEFRepository>();
+
 
 // Add services to the container. 
 builder.Services.AddControllersWithViews();

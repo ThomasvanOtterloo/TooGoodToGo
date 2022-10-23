@@ -21,12 +21,11 @@ namespace Portal.Models
             var result = new PackageViewModel
             {
                 Id = package.Id,
+                StudentId = package.StudentId ?? 0,
+                CanteenId = package.CanteenId ?? 0,
                 Name = package.Name,
-                Adult = package.IsAdult,
                 Price = package.Price,
                 Description = package.Description,
-                Canteen = package.Canteen,
-                SoldTo = package.ReservedTo,
                 Meal = package.Meal,
                 City = package.City,
                 LastUntil = package.AvailableUntil,

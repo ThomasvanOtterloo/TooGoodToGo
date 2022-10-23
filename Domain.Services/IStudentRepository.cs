@@ -1,12 +1,15 @@
 ﻿using Core.Domain;
 
-namespace Domain.Services
+namespace Core.Domain.Services
 {
     public interface IStudentRepository
     {
-        IEnumerable<Student> GetStudents();
-        Student GetStudentById(int id);
 
-        Student? AddStudent(Student student);
+        Student GetStudentById(int id);
+        IEnumerable<Student> GetAllStudents();
+        Task CreateStudent(Student student);
+        Task UpdateStudent(Student student);
+        Task DeleteStudent(int id);
+        
     }
 }

@@ -30,11 +30,15 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("IsHotMeal")
-                        .HasColumnType("bit");
+                    b.Property<int>("City")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Location")
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("OfferHotMeals")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -44,14 +48,16 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            IsHotMeal = true,
-                            Location = "LA"
+                            City = 1,
+                            Name = "LA",
+                            OfferHotMeals = true
                         },
                         new
                         {
                             Id = 2,
-                            IsHotMeal = false,
-                            Location = "LD"
+                            City = 1,
+                            Name = "LD 2",
+                            OfferHotMeals = false
                         });
                 });
 
@@ -63,7 +69,7 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CanteenId")
+                    b.Property<int>("CanteenId")
                         .HasColumnType("int");
 
                     b.Property<int>("EmployeeNumber")
@@ -74,17 +80,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CanteenId");
-
                     b.ToTable("Employee");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            EmployeeNumber = 8392,
-                            Name = "Elsa"
-                        });
                 });
 
             modelBuilder.Entity("Core.Domain.Package", b =>
@@ -107,9 +103,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAdult")
-                        .HasColumnType("bit");
-
                     b.Property<int>("Meal")
                         .HasColumnType("int");
 
@@ -120,17 +113,17 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("PickUp")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ReservedToId")
+                    b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CanteenId");
 
-                    b.HasIndex("ReservedToId");
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Packages");
 
@@ -138,98 +131,114 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            AvailableUntil = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = 0,
-                            Description = "Dit is lekkere Maccie dik vettie",
-                            IsAdult = true,
-                            Meal = 0,
-                            Name = "Verse Maccoroni",
-                            PickUp = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Price = 0.0
+                            AvailableUntil = new DateTime(2022, 10, 25, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9588),
+                            CanteenId = 1,
+                            City = 1,
+                            Description = "This is a package",
+                            Meal = 1,
+                            Name = "Package 1",
+                            PickUp = new DateTime(2022, 10, 22, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9554),
+                            Price = 10m,
+                            StudentId = 1
                         },
                         new
                         {
                             Id = 2,
-                            AvailableUntil = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = 0,
-                            Description = "Dit is lekkere Maccie dik vettie",
-                            IsAdult = false,
-                            Meal = 0,
-                            Name = "Pizza1",
-                            PickUp = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Price = 0.0
+                            AvailableUntil = new DateTime(2022, 10, 25, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9594),
+                            CanteenId = 1,
+                            City = 1,
+                            Description = "This is a package",
+                            Meal = 1,
+                            Name = "Package 2",
+                            PickUp = new DateTime(2022, 10, 22, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9592),
+                            Price = 10m,
+                            StudentId = 1
                         },
                         new
                         {
                             Id = 3,
-                            AvailableUntil = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = 0,
-                            Description = "Dit is lekkere Maccie dik vettie",
-                            IsAdult = false,
-                            Meal = 0,
-                            Name = "Pizza2",
-                            PickUp = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Price = 0.0
+                            AvailableUntil = new DateTime(2022, 10, 25, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9599),
+                            City = 3,
+                            Description = "This is a package",
+                            Meal = 1,
+                            Name = "Package 3",
+                            PickUp = new DateTime(2022, 10, 22, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9597),
+                            Price = 10m,
+                            StudentId = 2
                         },
                         new
                         {
                             Id = 4,
-                            AvailableUntil = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = 0,
-                            Description = "Dit is lekkere Maccie dik vettie",
-                            IsAdult = false,
-                            Meal = 0,
-                            Name = "Pizza3",
-                            PickUp = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Price = 0.0
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AvailableUntil = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = 0,
-                            Description = "Dit is lekkere Maccie dik vettie",
-                            IsAdult = false,
-                            Meal = 0,
-                            Name = "Pizza4",
-                            PickUp = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Price = 0.0
-                        },
-                        new
-                        {
-                            Id = 6,
-                            AvailableUntil = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = 0,
-                            Description = "Dit is lekkere Maccie dik vettie",
-                            IsAdult = true,
-                            Meal = 0,
-                            Name = "Verse Pizza1",
-                            PickUp = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Price = 0.0
-                        },
-                        new
-                        {
-                            Id = 7,
-                            AvailableUntil = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = 0,
-                            Description = "Dit is lekkere Maccie dik vettie",
-                            IsAdult = false,
+                            AvailableUntil = new DateTime(2022, 10, 25, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9604),
+                            City = 3,
+                            Description = "This is a package",
                             Meal = 1,
-                            Name = "Pizza5 ",
-                            PickUp = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Price = 0.0
+                            Name = "Package 4",
+                            PickUp = new DateTime(2022, 10, 22, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9602),
+                            Price = 10m,
+                            StudentId = 2
+                        });
+                });
+
+            modelBuilder.Entity("Core.Domain.PackageProducts", b =>
+                {
+                    b.Property<int>("PackageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("PackageId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("PackageProducts");
+
+                    b.HasData(
+                        new
+                        {
+                            PackageId = 1,
+                            ProductId = 1,
+                            Id = 0
                         },
                         new
                         {
-                            Id = 8,
-                            AvailableUntil = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = 0,
-                            Description = "Dit is lekkere Maccie dik vettie",
-                            IsAdult = false,
-                            Meal = 1,
-                            Name = "test",
-                            PickUp = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Price = 0.0
+                            PackageId = 1,
+                            ProductId = 2,
+                            Id = 0
+                        },
+                        new
+                        {
+                            PackageId = 1,
+                            ProductId = 3,
+                            Id = 0
+                        },
+                        new
+                        {
+                            PackageId = 1,
+                            ProductId = 4,
+                            Id = 0
+                        },
+                        new
+                        {
+                            PackageId = 2,
+                            ProductId = 1,
+                            Id = 0
+                        },
+                        new
+                        {
+                            PackageId = 2,
+                            ProductId = 2,
+                            Id = 0
+                        },
+                        new
+                        {
+                            PackageId = 2,
+                            ProductId = 3,
+                            Id = 0
                         });
                 });
 
@@ -241,7 +250,7 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("AlcoholIncluded")
+                    b.Property<bool>("ContainsAlcohol")
                         .HasColumnType("bit");
 
                     b.Property<string>("Image")
@@ -250,14 +259,85 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PackageId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("PackageId");
-
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ContainsAlcohol = false,
+                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi",
+                            Name = "Product 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ContainsAlcohol = false,
+                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi",
+                            Name = "Product 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ContainsAlcohol = false,
+                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi",
+                            Name = "Product 3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ContainsAlcohol = false,
+                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi",
+                            Name = "Product 4"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ContainsAlcohol = false,
+                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi",
+                            Name = "Product 5"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ContainsAlcohol = false,
+                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi",
+                            Name = "Product 6"
+                        });
+                });
+
+            modelBuilder.Entity("Core.Domain.ReservedPackage", b =>
+                {
+                    b.Property<int>("PackageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("PackageId", "StudentId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("ReservedPackage");
+
+                    b.HasData(
+                        new
+                        {
+                            PackageId = 1,
+                            StudentId = 1,
+                            Id = 0
+                        },
+                        new
+                        {
+                            PackageId = 2,
+                            StudentId = 1,
+                            Id = 0
+                        });
                 });
 
             modelBuilder.Entity("Core.Domain.Student", b =>
@@ -271,20 +351,14 @@ namespace Infrastructure.Migrations
                     b.Property<int>("City")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Students");
 
@@ -292,53 +366,110 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            City = 0,
-                            Email = "Thomas@gmail.com",
-                            Name = "Thomas",
-                            PhoneNumber = "06-11225039"
+                            City = 3,
+                            Name = "Student 1",
+                            PhoneNumber = "0612345678"
                         },
                         new
                         {
                             Id = 2,
-                            City = 0,
-                            Name = "Roberto"
+                            City = 1,
+                            Name = "Student 2",
+                            PhoneNumber = "0612345678"
                         });
                 });
 
-            modelBuilder.Entity("Core.Domain.Employee", b =>
+            modelBuilder.Entity("PackageProduct", b =>
                 {
-                    b.HasOne("Core.Domain.Canteen", "Canteen")
-                        .WithMany()
-                        .HasForeignKey("CanteenId");
+                    b.Property<int>("PackagesId")
+                        .HasColumnType("int");
 
-                    b.Navigation("Canteen");
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PackagesId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("PackageProduct");
                 });
 
             modelBuilder.Entity("Core.Domain.Package", b =>
                 {
                     b.HasOne("Core.Domain.Canteen", "Canteen")
-                        .WithMany()
+                        .WithMany("Packages")
                         .HasForeignKey("CanteenId");
 
-                    b.HasOne("Core.Domain.Student", "ReservedTo")
-                        .WithMany()
-                        .HasForeignKey("ReservedToId");
+                    b.HasOne("Core.Domain.Student", "Student")
+                        .WithMany("Packages")
+                        .HasForeignKey("StudentId");
 
                     b.Navigation("Canteen");
 
-                    b.Navigation("ReservedTo");
+                    b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("Core.Domain.Product", b =>
+            modelBuilder.Entity("Core.Domain.PackageProducts", b =>
+                {
+                    b.HasOne("Core.Domain.Package", "Package")
+                        .WithMany()
+                        .HasForeignKey("PackageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Package");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Core.Domain.ReservedPackage", b =>
+                {
+                    b.HasOne("Core.Domain.Package", "Package")
+                        .WithMany()
+                        .HasForeignKey("PackageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Package");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("PackageProduct", b =>
                 {
                     b.HasOne("Core.Domain.Package", null)
-                        .WithMany("Products")
-                        .HasForeignKey("PackageId");
+                        .WithMany()
+                        .HasForeignKey("PackagesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Core.Domain.Package", b =>
+            modelBuilder.Entity("Core.Domain.Canteen", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Packages");
+                });
+
+            modelBuilder.Entity("Core.Domain.Student", b =>
+                {
+                    b.Navigation("Packages");
                 });
 #pragma warning restore 612, 618
         }

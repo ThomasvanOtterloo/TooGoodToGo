@@ -1,4 +1,4 @@
-﻿using Domain.Services;
+﻿using Core.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Portal.Controllers

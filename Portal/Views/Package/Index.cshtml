@@ -1,9 +1,17 @@
 ﻿@model IEnumerable<Core.Domain.Package>
-
+@using Core.Domain;
 
 @{
     
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -18,9 +26,34 @@
         </div>
 
 
-
         
+        @*Userstory 8: As a user I want to be able to filter on what type of meal i want, and a filter that will show my location as default.*@
 
+        <form asp-controller="Package" asp-action="IndexFilter" method="post">
+            <div class="mb-3">
+                <label class="form-label">Select City</label>
+                <select class="form-select" asp-items="@Html.GetEnumSelectList<City>();" name="selectedItem"></select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Select type of meal</label>
+                <select class="form-select" asp-items="@Html.GetEnumSelectList<Meal>();" name="meal"></select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Select Availability</label>
+                <select class="form-select" name="Availability">
+                    <option value="Available">Available</option>
+                    <option value="All">All</option>
+                    <option value="Reserved">Reserved</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </form>
+       
         <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
             @foreach (var item in Model) 
             {
@@ -33,6 +66,7 @@
                             <i>@Html.DisplayFor(modelItem => item.PickUp)</i>
                         </div>
                         <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                        <h1>@Html.DisplayFor(modelItem => item.City)</h1>
                         <p>@Html.DisplayFor(modelItem => item.Description)</p>
                         <a asp-action="Details" asp-route-id="@item.Id" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
                     </div>
@@ -40,8 +74,5 @@
             
             }
         </div>
-     
-       
-
     </div>
 </section><!-- End Our Services Section -->

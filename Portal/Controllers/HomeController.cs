@@ -12,13 +12,13 @@ namespace Portal.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly SignInManager<IdentityUser> signInManager;
+        //private readonly SignInManager<IdentityUser> signInManager;
         private readonly PackageDbContext packageDbContext;
 
-        public HomeController(ILogger<HomeController> logger, SignInManager<IdentityUser> signInManager, PackageDbContext packageDbContext )
+        public HomeController(ILogger<HomeController> logger, PackageDbContext packageDbContext )
         {
             _logger = logger;
-            this.signInManager = signInManager;
+            //this.signInManager = signInManager;
             this.packageDbContext = packageDbContext;
         }
        

@@ -10,29 +10,47 @@ using Microsoft.AspNetCore.Authorization;
 using Infrastructure;
 using Core.Domain;
 using Microsoft.AspNetCore.Identity;
+using System.Collections;
+using Core.Domain.Services;
+using Portal.Models;
+using Microsoft.Data.SqlClient.Server;
 
 namespace Portal.Controllers
 {
     public class PackageController : Controller
     {
         private readonly PackageDbContext _context;
-        //private readonly SignInManager<Student> signInManager;
-
-        public PackageController(PackageDbContext context)
-        {
-            _context = context;
-            //this.signInManager = signInManager;
-        }
-
-        // GET: Package 
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Packages.ToListAsync());
-        }
-
+        private readonly ICityRepository cityRepository;
        
 
-  
+        public PackageController(PackageDbContext context, ICityRepository cityRepository)
+        {
+            _context = context;
+            this.cityRepository = cityRepository;
+            
+        }
+       
+
+        // GET: Package 
+       
+        public async Task<IActionResult> Index()
+        {
+                return View(await _context.Packages.ToListAsync());
+        }
+
+        public async Task<IActionResult> IndexFilter(City selectedItem, Meal meal, string Availability)
+        {
+            //if (selectedItem == City.All)
+            //{
+            //    return View("Index", await _context.Packages.ToListAsync());
+            //}
+
+            return View("Index", await _context.Packages.ToListAsync());
+        }
+
+
+        
+        
 
         // GET: Jokes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -49,7 +67,12 @@ namespace Portal.Controllers
                 return NotFound();
             }
 
-            return View(Packages);
+            DetailsModel detailsModel = new DetailsModel();
+            detailsModel.Package = Packages;
+            detailsModel.Products = _context.PackageProducts.Where(p => p.PackageId == id).ToList();
+            //detailsModel.CanteenName = _context.Canteens.Where(c => c.Id == Packages.CanteenId).FirstOrDefault().Name;
+
+            return View(detailsModel);
         }
 
         // GET: Package/Where?ReservedTo=logginInStudentId
@@ -68,17 +91,27 @@ namespace Portal.Controllers
 
         public IActionResult Create()
         {
-            return View();
-        }
+            ProductModel productModel = new ProductModel();
+            productModel.ProductsList = _context.Products.ToList();
+            productModel.Canteens = _context.Canteens.ToList();
+            productModel.Packages = _context.Packages.ToList();
 
-        // POST: Jokes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+         
+            return View(productModel);
+
+
+           
+        }
+     
         //[Authorize]
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,IsAdult")] Package package)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,AvailableUntil,LastUntil,City,CanteenId,PickUp,Price,Meal,Adult,Products")] Package package)
         {
+
+            var price = package.Price;
+            var products = package.Products;
             if (ModelState.IsValid)
             {
                 _context.Add(package);
@@ -104,7 +137,21 @@ namespace Portal.Controllers
             return View(package);
         }
 
-       
+        public async Task<IActionResult> ReservedBoxes(int? id)
+        {
+            if (id == null || _context.Packages == null)
+            {
+                return NotFound();
+            }
+
+            var package = await _context.Packages.Where(a => a.StudentId == id).ToListAsync();
+            if (package == null)
+            {
+                return NotFound();
+            }
+            return View(package);
+        }
+
 
         //// POST: Jokes/Edit/5
         //// To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -143,48 +190,55 @@ namespace Portal.Controllers
         //    return View(joke);
         //}
 
-        //// GET: Jokes/Delete/5
-        //[Authorize]
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null || _context.Joke == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    var joke = await _context.Joke
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (joke == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.Packages == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(joke);
-        //}
+            var Package = await _context.Packages
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (Package == null)
+            {
+                return NotFound();
+            }
 
-        //// POST: Jokes/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //[Authorize]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    if (_context.Joke == null)
-        //    {
-        //        return Problem("Entity set 'ApplicationDbContext.Joke'  is null.");
-        //    }
-        //    var joke = await _context.Joke.FindAsync(id);
-        //    if (joke != null)
-        //    {
-        //        _context.Joke.Remove(joke);
-        //    }
+            DetailsModel detailsModel = new DetailsModel();
+            detailsModel.Package = Package;
 
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+            return View(detailsModel);
+        }
+
+        // POST: Jokes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Packages == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Joke'  is null.");
+            }
+            var Package = await _context.Packages.FindAsync(id);
+            if (Package != null)
+            {
+                _context.Packages.Remove(Package);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Packages/Delete/5
+
 
         private bool PackageExists(int id)
         {
             return _context.Packages.Any(e => e.Id == id);
         }
+
+
     }
 }

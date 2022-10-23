@@ -208,3 +208,6 @@ D:\dev\dotnet\TooGoodToGo\WebApi\obj\Debug\net6.0\refint\WebApi.dll
 D:\dev\dotnet\TooGoodToGo\WebApi\obj\Debug\net6.0\WebApi.pdb
 D:\dev\dotnet\TooGoodToGo\WebApi\obj\Debug\net6.0\WebApi.genruntimeconfig.cache
 D:\dev\dotnet\TooGoodToGo\WebApi\obj\Debug\net6.0\ref\WebApi.dll
+D:\dev\dotnet\TooGoodToGo\WebApi\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+D:\dev\dotnet\TooGoodToGo\WebApi\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\dev\dotnet\TooGoodToGo\WebApi\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

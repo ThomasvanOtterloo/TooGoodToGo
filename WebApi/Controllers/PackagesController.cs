@@ -29,5 +29,29 @@ namespace WebApi.Controllers
         {
             return Ok(_packageRepository.GetPackageById(id));
         }
+
+        [HttpPost]
+        public ActionResult<Package> CreatePackage(Package package)
+        {
+            _packageRepository.CreatePackage(package);
+            return Ok(package);
+        }
+
+        [HttpPut]
+        public ActionResult<Package> UpdatePackage(Package package)
+        {
+            _packageRepository.UpdatePackage(package);
+            return Ok(package);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<Package> DeletePackage(int id)
+        {
+            _packageRepository.DeletePackage(id);
+            return Ok();
+        }
+        
+        
+        
     }
 }

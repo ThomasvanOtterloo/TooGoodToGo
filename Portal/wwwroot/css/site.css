@@ -369,8 +369,9 @@ section {
     }
 
     .header .logo img {
-        max-height: 40px;
+        max-height: 150px;
         margin-right: 6px;
+        padding-bottom: 16px;
     }
 
     .header .logo h1 {
@@ -2763,8 +2764,8 @@ section {
         }
 
 
-/* From uiverse.io by @ercnersoy */
-/* The switch - the box around the slider */
+ From uiverse.io by @ercnersoy 
+ The switch - the box around the slider 
 .switch {
     font-size: 17px;
     position: relative;
@@ -2774,13 +2775,13 @@ section {
     left: 20px;
     
 }
-    /* Hide default HTML checkbox */
+     Hide default HTML checkbox 
     .switch input {
         opacity: 0;
         width: 0;
         height: 0;
     }
-/* The slider */
+ The slider 
 .slider {
     position: absolute;
     cursor: pointer;
@@ -2834,3 +2835,7 @@ input:checked + .slider::after {
     padding-bottom: 10px;
 
 }
+
+
+
+

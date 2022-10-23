@@ -18,7 +18,7 @@ namespace Infrastructure
             return _context.Packages.First(p => p.Id == id);
         }
 
-        public Task AddPackage(Package package)
+        public Task CreatePackage(Package package)
         {
             _context.Packages.Add(package);
             return Task.CompletedTask;
@@ -29,7 +29,7 @@ namespace Infrastructure
 
         public IEnumerable<Package> GetAllAvailablePackages()
         {
-            return _context.Packages.Where(p => p.ReservedTo == null).ToList();
+            return _context.Packages.Where(p => p.StudentId == null).ToList();
         }
 
         public IEnumerable<Package> GetAllPackages()
@@ -39,13 +39,23 @@ namespace Infrastructure
 
         public IEnumerable<Package> GetAllSoldPackages(Student student)
         {
-            return _context.Packages.Where(p => p.ReservedTo == student).ToList();
+            return _context.Packages.Where(p => p.StudentId == student.Id).ToList();
         }
 
-        public Task RemovePackage(Package package)
+        public Task DeletePackage(int Id)
         {
-            _context.Packages.Remove(package);
+            _context.Packages.Remove(_context.Packages.First(p => p.Id == Id));
             return Task.CompletedTask;
         }
+
+        public Task UpdatePackage(Package package)
+        {
+            _context.Packages.Update(package);
+            return Task.CompletedTask;
+        }
+
+      
+
+
     }
 }
