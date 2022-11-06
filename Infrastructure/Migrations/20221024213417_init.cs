@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,6 +31,7 @@ namespace Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmployeeNumber = table.Column<int>(type: "int", nullable: false),
                     CanteenId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -61,6 +62,7 @@ namespace Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<int>(type: "int", nullable: false)
                 },
@@ -124,33 +126,101 @@ namespace Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ReservedPackage",
+                columns: table => new
+                {
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    PackageId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReservedPackage", x => new { x.PackageId, x.StudentId });
+                    table.ForeignKey(
+                        name: "FK_ReservedPackage_Packages_PackageId",
+                        column: x => x.PackageId,
+                        principalTable: "Packages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReservedPackage_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
-                table: "Packages",
-                columns: new[] { "Id", "AvailableUntil", "CanteenId", "City", "Description", "Meal", "Name", "PickUp", "Price", "StudentId" },
+                table: "Canteens",
+                columns: new[] { "Id", "City", "Name", "OfferHotMeals" },
                 values: new object[,]
                 {
-                    { 3, new DateTime(2022, 10, 23, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6707), null, 0, "This is a package", 1, "Package 3", new DateTime(2022, 10, 20, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6705), 10m, null },
-                    { 4, new DateTime(2022, 10, 23, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6712), null, 0, "This is a package", 1, "Package 4", new DateTime(2022, 10, 20, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6710), 10m, null }
+                    { 1, 0, "LA", true },
+                    { 2, 2, "LD 2", false }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Employee",
+                columns: new[] { "Id", "CanteenId", "Email", "EmployeeNumber", "Name" },
+                values: new object[,]
+                {
+                    { 1, 1, "Employee1@gmail.com", 13242321, "Employee 1" },
+                    { 2, 2, "Employee2@gmail.com", 1223334, "Employee 2" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "ContainsAlcohol", "Image", "Name" },
+                values: new object[,]
+                {
+                    { 1, false, "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi", "Product 1" },
+                    { 2, false, "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi", "Product 2" },
+                    { 3, false, "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi", "Product 3" },
+                    { 4, false, "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi", "Product 4" },
+                    { 5, false, "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi", "Product 5" },
+                    { 6, false, "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi", "Product 6" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Students",
-                columns: new[] { "Id", "City", "Name", "PhoneNumber" },
+                columns: new[] { "Id", "City", "Email", "Name", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { 1, 2, "Student 1", "0612345678" },
-                    { 2, 0, "Student 2", "0612345678" }
+                    { 1, 2, "Student1@gmail.com", "Student 1", "0612345678" },
+                    { 2, 0, "Student2@gmail.com", "Student 2", "0612345678" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Packages",
                 columns: new[] { "Id", "AvailableUntil", "CanteenId", "City", "Description", "Meal", "Name", "PickUp", "Price", "StudentId" },
-                values: new object[] { 1, new DateTime(2022, 10, 23, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6696), null, 0, "This is a package", 1, "Package 1", new DateTime(2022, 10, 20, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6655), 10m, 1 });
+                values: new object[,]
+                {
+                    { 1, new DateTime(2022, 10, 27, 23, 34, 17, 194, DateTimeKind.Local).AddTicks(6914), 1, 0, "This is a package", 1, "Package 1", new DateTime(2022, 10, 24, 23, 34, 17, 194, DateTimeKind.Local).AddTicks(6871), 10m, 1 },
+                    { 2, new DateTime(2022, 10, 27, 23, 34, 17, 194, DateTimeKind.Local).AddTicks(6920), 1, 0, "This is a package", 1, "Package 2", new DateTime(2022, 10, 24, 23, 34, 17, 194, DateTimeKind.Local).AddTicks(6918), 10m, 1 },
+                    { 3, new DateTime(2022, 10, 27, 23, 34, 17, 194, DateTimeKind.Local).AddTicks(6924), null, 2, "This is a package", 1, "Package 3", new DateTime(2022, 10, 24, 23, 34, 17, 194, DateTimeKind.Local).AddTicks(6922), 10m, 2 },
+                    { 4, new DateTime(2022, 10, 27, 23, 34, 17, 194, DateTimeKind.Local).AddTicks(6929), null, 2, "This is a package", 1, "Package 4", new DateTime(2022, 10, 24, 23, 34, 17, 194, DateTimeKind.Local).AddTicks(6927), 10m, 2 }
+                });
 
             migrationBuilder.InsertData(
-                table: "Packages",
-                columns: new[] { "Id", "AvailableUntil", "CanteenId", "City", "Description", "Meal", "Name", "PickUp", "Price", "StudentId" },
-                values: new object[] { 2, new DateTime(2022, 10, 23, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6703), null, 0, "This is a package", 1, "Package 2", new DateTime(2022, 10, 20, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6700), 10m, 1 });
+                table: "PackageProduct",
+                columns: new[] { "PackagesId", "ProductsId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 1, 2 },
+                    { 2, 1 },
+                    { 2, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ReservedPackage",
+                columns: new[] { "PackageId", "StudentId", "Id" },
+                values: new object[,]
+                {
+                    { 1, 1, 0 },
+                    { 2, 1, 0 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_PackageProduct_ProductsId",
@@ -166,6 +236,17 @@ namespace Infrastructure.Migrations
                 name: "IX_Packages_StudentId",
                 table: "Packages",
                 column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReservedPackage_StudentId",
+                table: "ReservedPackage",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Students_Email",
+                table: "Students",
+                column: "Email",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -177,10 +258,13 @@ namespace Infrastructure.Migrations
                 name: "PackageProduct");
 
             migrationBuilder.DropTable(
-                name: "Packages");
+                name: "ReservedPackage");
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Packages");
 
             migrationBuilder.DropTable(
                 name: "Canteens");

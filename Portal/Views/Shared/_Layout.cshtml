@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 
 <!DOCTYPE html>
@@ -8,32 +9,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TooGoodToGo</title>
-
-    <!-- Google Fonts -->
+    <link rel="icon" href="/images/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-
-
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TooGoodToGo.styles.css" asp-append-version="true" />
 
     <style>
         body {
-            
         }
 
     </style>
+
 </head>
 <body>
-
-    <!-- ======= Header ======= -->
     <section id="topbar" class="topbar d-flex align-items-center">
         <div class="container d-flex justify-content-center justify-content-md-between">
             <div class="contact-info d-flex align-items-center">
-                <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@example.com">contact@example.com</a></i>
-                <i class="bi bi-phone d-flex align-items-center ms-4"><span>+1 5589 55488 55</span></i>
+                <i class="bi bi-envelope d-flex align-items-center"><a href="">Thomas van Otterloo</a></i>
+                <i class="bi bi-phone d-flex align-items-center ms-4"><span>2186082</span></i>
             </div>
             <div class="social-links d-none d-md-flex align-items-center">
                 <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
@@ -42,58 +38,56 @@
                 <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
             </div>
         </div>
-    </section><!-- End Top Bar -->
+    </section>
 
     <header id="header" class="header d-flex align-items-center">
 
         <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
             <a asp-controller="Home" asp-action="Index" class="logo d-flex align-items-center">
-                <!-- Uncomment the line below if you also wish to use an image logo -->
                 <img src="~/images/logo.png" alt="">
                 <h1>ToGoodToGo<span>.</span></h1>
             </a>
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a  asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a  asp-area="" asp-controller="Home" asp-action="Vision">Vision</a></li>
-                    <li class="dropdown">
-                        <a asp-area="" asp-controller="Package" asp-action="Index">Boxes</a>
-                        <ul>
-                            <li><a asp-area="" asp-controller="Package" asp-action="Index">Boxes</a></li>
-                            <li class="dropdown">
-                                <a asp-area="" asp-controller="Package" asp-action="ReservedBoxes">Reserved boxes</a>
-                                <a asp-area="" asp-controller="Package" asp-action="Create">Create Box(Admin)</a>
-                                <a asp-area="" asp-controller="Home" asp-action="AllBoxes">All Boxes(Admin)</a>
-                            </li>
-                            
-                        </ul>
-                    </li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Locations">Locations</a></li>
-                    @if (SignInManager.IsSignedIn(User))
-                        {
-                            <li>
-                                <a asp-area="" asp-page="/Logout">Logout</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li>
-                            <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                            <li>
-                                <a asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                            </li>
-                        }
-                </ul>
-            </nav><!-- .navbar -->
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Vision">Vision</a></li>
+                    <li><a asp-area="" asp-controller="Package" asp-action="Index">Boxes</a></li>
+                    @if (User.HasClaim("Employee", "true"))
+                    {
+                        <li><a asp-area="" asp-controller="Package" asp-action="Create">Create Box(Admin)</a></li>
 
+                    }
+
+                    <li><a asp-area="" asp-controller="Home" asp-action="Locations">Locations</a></li>
+                    @if (User.Identity!.IsAuthenticated)
+                    {
+                        <li>
+                            <a class="btn" asp-controller="Account" asp-action="Logout">Logout</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                        </li>
+                    }
+
+                    @if (User.HasClaim("Student", "true"))
+                    {
+                        <a asp-controller="Package" asp-action="ReservedBoxes" class="logo d-flex align-items-center">
+                            <img src="~/images/BasketIconDefinitief.png" alt="">
+                        </a>
+                    }
+                </ul>
+            </nav>
             <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
             <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
 
         </div>
-    </header><!-- End Header -->
-    <!-- End Header -->
-
+    </header>
 
     <div class="container">
         <main role="main" class="pb-3">
@@ -103,23 +97,37 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - TooGoodToGo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            Made by; Thomas van Otterloo 2022 - TooGoodToGo</a>
         </div>
     </footer>
-    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
-    @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
-    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
-     <!-- Vendor JS Files -->
-  <script src="lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="lib/vendor/aos/aos.js"></script>
-  <script src="lib/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="lib/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="lib/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="lib/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="lib/vendor/php-email-form/validate.js"></script>
+    <script src="lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/vendor/aos/aos.js"></script>
+    <script src="lib/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="lib/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="lib/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="lib/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="lib/vendor/php-email-form/validate.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (TempData.ContainsKey("success"))
+    {
+        <script>
+            Swal.fire('Yes, gelukt!', '@TempData["success"]!.ToString()', 'success')
+        </script>
+    }
+    @if (TempData.ContainsKey("error"))
+    {
+        <script>
+            Swal.fire('Oops...', '@TempData["error"]!.ToString()', 'error')
+        </script>
+    }
+    @if (TempData.ContainsKey("warning"))
+    {
+        <script>
+            Swal.fire('Oops...', '@TempData["warning"]!.ToString()', 'warning')
+        </script>
+    }
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+    <script src="assets/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

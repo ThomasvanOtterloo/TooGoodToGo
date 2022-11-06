@@ -21,6 +21,24 @@ body {
 
 
 
+.dotted {
+    margin-top: 55px;
+    margin-bottom: 55px;
+    background: #cfba83;
+    border-bottom: 6px dotted #693d23;
+    opacity: 1;
+}
+
+dt {
+    font-weight: bold;
+    font-size: 37px;
+}
+
+dd {
+    font-size: 25px;
+}
+
+
 @font-face {
     font-family: brasika;
     src: url("../brasika-display.otf") format('opentype');
@@ -79,8 +97,9 @@ body {
 # General
 --------------------------------------------------------------*/
 body {
-    font-family: var(--font-default);
+    font-family: calistoga;
     color: var(--color-default);
+    margin: 0px 0 180px;
 }
 
 a {
@@ -1028,19 +1047,30 @@ section {
 }
 
     .services .service-item {
-        padding: 40px;
+        
         background: #97a76e;
         height: 100%;
         border-radius: 10px;
     }
 
+    .card-content{
+        padding: 10px;
+
+    }
+
+    .card-image {
+        background-color: #2b2b28;
+        height: 200px;
+        width: 100%;
+        margin-bottom: 15px;
+        background-size: cover;
+        border-radius: 15px 15px 0 0;
+    }
+
+
         .services .service-item .icon {
-            width: 48px;
-            height: 48px;
-            position: initial;
-            margin-bottom: 50px;
-            margin-left: -35px;
-            margin-top: -30px;
+            
+            position: initial; 
         }
 
             .services .service-item .icon i {
@@ -1068,20 +1098,27 @@ section {
         }
 
         .services .service-item p {
-            line-height: 24px;
-            font-size: 14px;
+            line-height: 18px;
+            font-size: 18px;
             margin-bottom: 0;
         }
 
-        .services .service-item .readmore {
-            margin-top: 15px;
-            display: inline-block;
-            color: var(--color-primary);
-        }
+.services .service-item .readmore {
+    margin-top: 15px;
+    color: #cfba83;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: -5px;
+    margin-right: -5px;
+    font-size: 20px;
+}
 
-        .services .service-item:hover .icon:before {
-            background: #00b6a1;
-        }
+
+
+.services .service-item:hover .icon:before {
+    background: #00b6a1;
+}
 
         .services .service-item:hover h3 {
             border-color: var(--color-primary);
@@ -2652,16 +2689,23 @@ section {
 # Footer
 --------------------------------------------------------------*/
 .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     font-size: 14px;
     background-color: #69894e;
-    padding: 50px 0;
-    color: white;
+    padding: 15px 0;
+    color: white !important;
+    overflow: hidden;
+
 }
 
-    .footer .footer-info .logo {
-        line-height: 0;
-        margin-bottom: 25px;
-    }
+
+.footer .footer-info .logo {
+    line-height: 0;
+    margin-bottom: 25px;
+}
 
         .footer .footer-info .logo img {
             max-height: 40px;
@@ -2839,3 +2883,266 @@ input:checked + .slider::after {
 
 
 
+
+/* From uiverse.io by @bandirevanth */
+/* Switch starts here */
+.rocker {
+    display: inline-block;
+    position: relative;
+    /*
+  SIZE OF SWITCH
+  ==============
+  All sizes are in em - therefore
+  changing the font-size here
+  will change the size of the switch.
+  See .rocker-small below as example.
+  */
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    color: #888;
+    width: 7em;
+    height: 4em;
+    overflow: hidden;
+    border-bottom: 0.5em solid #eee;
+}
+
+.rocker-small {
+    font-size: 0.75em;
+    /* Sizes the switch */
+    margin: 1em;
+}
+
+.rocker::before {
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #999;
+    border: 0.5em solid #eee;
+    border-bottom: 0;
+}
+
+.rocker input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch-left,
+.switch-right {
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5em;
+    width: 3em;
+    transition: 0.2s;
+    user-select: none;
+}
+
+.switch-left {
+    height: 2.4em;
+    width: 2.75em;
+    left: 0.85em;
+    bottom: 0.4em;
+    background-color: #ddd;
+    transform: rotate(15deg) skewX(15deg);
+}
+
+.switch-right {
+    right: 0.5em;
+    bottom: 0;
+    background-color: #bd5757;
+    color: #fff;
+}
+
+    .switch-left::before,
+    .switch-right::before {
+        content: "";
+        position: absolute;
+        width: 0.4em;
+        height: 2.45em;
+        bottom: -0.45em;
+        background-color: #ccc;
+        transform: skewY(-65deg);
+    }
+
+.switch-left::before {
+    left: -0.4em;
+}
+
+.switch-right::before {
+    right: -0.375em;
+    background-color: transparent;
+    transform: skewY(65deg);
+}
+
+input:checked + .switch-left {
+    background-color: #0084d0;
+    color: #fff;
+    bottom: 0px;
+    left: 0.5em;
+    height: 2.5em;
+    width: 3em;
+    transform: rotate(0deg) skewX(0deg);
+}
+
+    input:checked + .switch-left::before {
+        background-color: transparent;
+        width: 3.0833em;
+    }
+
+    input:checked + .switch-left + .switch-right {
+        background-color: #ddd;
+        color: #888;
+        bottom: 0.4em;
+        right: 0.8em;
+        height: 2.4em;
+        width: 2.75em;
+        transform: rotate(-15deg) skewX(-15deg);
+    }
+
+        input:checked + .switch-left + .switch-right::before {
+            background-color: #ccc;
+        }
+
+/* Keyboard Users */
+input:focus + .switch-left {
+    color: #333;
+}
+
+input:checked:focus + .switch-left {
+    color: #fff;
+}
+
+input:focus + .switch-left + .switch-right {
+    color: #fff;
+}
+
+input:checked:focus + .switch-left + .switch-right {
+    color: #333;
+}
+
+
+.default-button-dark {
+    background: #693d23;
+    position: absolute;
+    box-shadow: 16px 16px #2b2b28;
+    padding: 10px 30px;
+    color: #cfba83;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    border-width: 4px;
+    font-family: calistoga;
+}
+
+.default-button-light {
+    background: #69884f;
+    position: absolute;
+    box-shadow: 16px 16px #2b2b28;
+    padding: 10px 30px;
+    color: #2b2b28;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    border-width: 4px;
+    font-family: calistoga;
+}
+
+
+
+
+select {
+    box-shadow: 0 10px 25px rgba(0,0,0,0);
+    font-size: 1.3em;
+    padding: 0.2em 1rem 0.2em;
+    background: #69884f;
+    color: #2b2b28;
+    border: 0;
+    border-radius: 8px;
+}
+
+    select.decorated option:hover {
+        background: #2b2b28;
+        color: #69884f;
+    }
+
+   
+
+.select-label {
+    
+    font-size: 1.3em;
+    color: #2b2b28;
+}
+
+.custom-select{
+    position: relative;
+    
+}
+
+.custom-arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    
+    height: 1rem;
+    widows: 1rem;
+    pointer-events: none;
+}
+
+    .custom-arrow::before,
+    .custom-arrow::after {
+
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    background: red;
+    height: 1rem;
+    widows: 1rem;
+    pointer-events: none;
+
+    }
+
+
+.control-label{
+    font-size: 24px;
+}
+
+
+.vl {
+    border-left: 6px dotted #693d23;
+    height: 100%;
+}
+
+
+
+
+.login {
+    position: absolute;
+    top: 35%;
+    left: 40%;
+    height: 300px;
+    width: 500px;
+    background-color: #69894e;
+   
+}
+
+.login-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}

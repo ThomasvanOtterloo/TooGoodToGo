@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(PackageDbContext))]
-    [Migration("20221020105114_Init")]
-    partial class Init
+    [Migration("20221028225539_addedNewSeeds")]
+    partial class addedNewSeeds
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,6 +45,22 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Canteens");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            City = 0,
+                            Name = "LA",
+                            OfferHotMeals = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            City = 2,
+                            Name = "LD 2",
+                            OfferHotMeals = false
+                        });
                 });
 
             modelBuilder.Entity("Core.Domain.Employee", b =>
@@ -58,6 +74,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("CanteenId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("EmployeeNumber")
                         .HasColumnType("int");
 
@@ -67,6 +86,24 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employee");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CanteenId = 1,
+                            Email = "Employee1@gmail.com",
+                            EmployeeNumber = 13242321,
+                            Name = "Employee 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CanteenId = 2,
+                            Email = "Employee2@gmail.com",
+                            EmployeeNumber = 1223334,
+                            Name = "Employee 2"
+                        });
                 });
 
             modelBuilder.Entity("Core.Domain.Package", b =>
@@ -117,47 +154,49 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            AvailableUntil = new DateTime(2022, 10, 23, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6696),
+                            AvailableUntil = new DateTime(2022, 11, 1, 0, 55, 38, 818, DateTimeKind.Local).AddTicks(4404),
+                            CanteenId = 1,
                             City = 0,
-                            Description = "This is a package",
+                            Description = "This box contains a surprise",
                             Meal = 1,
-                            Name = "Package 1",
-                            PickUp = new DateTime(2022, 10, 20, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6655),
-                            Price = 10m,
-                            StudentId = 1
+                            Name = "Suprise Box",
+                            PickUp = new DateTime(2022, 10, 29, 0, 55, 38, 818, DateTimeKind.Local).AddTicks(4367),
+                            Price = 10m
                         },
                         new
                         {
                             Id = 2,
-                            AvailableUntil = new DateTime(2022, 10, 23, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6703),
+                            AvailableUntil = new DateTime(2022, 11, 1, 0, 55, 38, 818, DateTimeKind.Local).AddTicks(4411),
+                            CanteenId = 1,
                             City = 0,
-                            Description = "This is a package",
+                            Description = "Half of the box is filled with bread",
                             Meal = 1,
-                            Name = "Package 2",
-                            PickUp = new DateTime(2022, 10, 20, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6700),
-                            Price = 10m,
-                            StudentId = 1
+                            Name = "Bread Box",
+                            PickUp = new DateTime(2022, 10, 29, 0, 55, 38, 818, DateTimeKind.Local).AddTicks(4408),
+                            Price = 10m
                         },
                         new
                         {
                             Id = 3,
-                            AvailableUntil = new DateTime(2022, 10, 23, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6707),
-                            City = 0,
-                            Description = "This is a package",
+                            AvailableUntil = new DateTime(2022, 11, 1, 0, 55, 38, 818, DateTimeKind.Local).AddTicks(4415),
+                            CanteenId = 1,
+                            City = 2,
+                            Description = "Alot of fresh left over soup ready to be served for dinner!",
                             Meal = 1,
-                            Name = "Package 3",
-                            PickUp = new DateTime(2022, 10, 20, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6705),
+                            Name = "Soup Box",
+                            PickUp = new DateTime(2022, 10, 29, 0, 55, 38, 818, DateTimeKind.Local).AddTicks(4413),
                             Price = 10m
                         },
                         new
                         {
                             Id = 4,
-                            AvailableUntil = new DateTime(2022, 10, 23, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6712),
-                            City = 0,
-                            Description = "This is a package",
+                            AvailableUntil = new DateTime(2022, 11, 1, 0, 55, 38, 818, DateTimeKind.Local).AddTicks(4421),
+                            CanteenId = 2,
+                            City = 2,
+                            Description = " This box contains a gourmet meal",
                             Meal = 1,
-                            Name = "Package 4",
-                            PickUp = new DateTime(2022, 10, 20, 12, 51, 14, 646, DateTimeKind.Local).AddTicks(6710),
+                            Name = "Gourmet Box",
+                            PickUp = new DateTime(2022, 10, 29, 0, 55, 38, 818, DateTimeKind.Local).AddTicks(4419),
                             Price = 10m
                         });
                 });
@@ -182,6 +221,82 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ContainsAlcohol = false,
+                            Image = "https://i0.wp.com/www.vickyvandijk.nl/wp-content/uploads/2020/04/Vicky-van-Dijk-Knapperig-wit-brood-03.jpg?fit=1500%2C2100&ssl=1",
+                            Name = "brood"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ContainsAlcohol = false,
+                            Image = "https://familieoverdekook.nl/wp-content/uploads/2020/05/soep-met-courgette-en-tomaat.jpg",
+                            Name = "soep"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ContainsAlcohol = false,
+                            Image = "https://www.lekkerensimpel.com/wp-content/uploads/2022/08/588A2242.jpg",
+                            Name = "pasta"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ContainsAlcohol = true,
+                            Image = "https://brouwerijtroost.nl/wp-content/uploads/IMG_9831-1200x1200.jpg",
+                            Name = "Product 4"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ContainsAlcohol = false,
+                            Image = "https://img.static-rmg.be/a/view/q75/w620/h336/4563344/gettyimages-1317960485-jpg.jpg",
+                            Name = "sla"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ContainsAlcohol = false,
+                            Image = "https://www.oetker.nl/Recipe/Recipes/oetker.nl/nl-nl/miscellaneous/image-thumb__97330__RecipeDetail/pizza-caprese.jpg",
+                            Name = "Pizza"
+                        });
+                });
+
+            modelBuilder.Entity("Core.Domain.ReservedPackage", b =>
+                {
+                    b.Property<int>("PackageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("PackageId", "StudentId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("ReservedPackage");
+
+                    b.HasData(
+                        new
+                        {
+                            PackageId = 1,
+                            StudentId = 1,
+                            Id = 0
+                        },
+                        new
+                        {
+                            PackageId = 2,
+                            StudentId = 1,
+                            Id = 0
+                        });
                 });
 
             modelBuilder.Entity("Core.Domain.Student", b =>
@@ -195,6 +310,10 @@ namespace Infrastructure.Migrations
                     b.Property<int>("City")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -204,6 +323,9 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Students");
 
                     b.HasData(
@@ -211,6 +333,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             City = 2,
+                            Email = "Student1@gmail.com",
                             Name = "Student 1",
                             PhoneNumber = "0612345678"
                         },
@@ -218,6 +341,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 2,
                             City = 0,
+                            Email = "Student2@gmail.com",
                             Name = "Student 2",
                             PhoneNumber = "0612345678"
                         });
@@ -236,6 +360,28 @@ namespace Infrastructure.Migrations
                     b.HasIndex("ProductsId");
 
                     b.ToTable("PackageProduct");
+
+                    b.HasData(
+                        new
+                        {
+                            PackagesId = 1,
+                            ProductsId = 1
+                        },
+                        new
+                        {
+                            PackagesId = 1,
+                            ProductsId = 2
+                        },
+                        new
+                        {
+                            PackagesId = 2,
+                            ProductsId = 3
+                        },
+                        new
+                        {
+                            PackagesId = 2,
+                            ProductsId = 4
+                        });
                 });
 
             modelBuilder.Entity("Core.Domain.Package", b =>
@@ -249,6 +395,25 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("StudentId");
 
                     b.Navigation("Canteen");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("Core.Domain.ReservedPackage", b =>
+                {
+                    b.HasOne("Core.Domain.Package", "Package")
+                        .WithMany()
+                        .HasForeignKey("PackageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Package");
 
                     b.Navigation("Student");
                 });

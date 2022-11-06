@@ -5,32 +5,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portal.Models;
 using System.Diagnostics;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Portal.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        //private readonly SignInManager<IdentityUser> signInManager;
         private readonly PackageDbContext packageDbContext;
 
-        public HomeController(ILogger<HomeController> logger, PackageDbContext packageDbContext )
+        public HomeController(ILogger<HomeController> logger, PackageDbContext packageDbContext)
         {
             _logger = logger;
             //this.signInManager = signInManager;
             this.packageDbContext = packageDbContext;
         }
-       
-       
+
+
 
         public IActionResult Index()
         {
             return View();
         }
 
-       
-        
+
+
+
 
         public IActionResult Vision()
         {
@@ -63,7 +63,7 @@ namespace Portal.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-       
+
 
     }
 }

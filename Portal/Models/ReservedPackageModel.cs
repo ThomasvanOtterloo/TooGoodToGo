@@ -7,5 +7,7 @@ namespace Portal.Models
         public Student Student { get; set; }
         public Package Package { get; set; }
         public IEnumerable<Package> Packages { get; set; }
+
+        public int Quantity { get; set; }
     }
 }

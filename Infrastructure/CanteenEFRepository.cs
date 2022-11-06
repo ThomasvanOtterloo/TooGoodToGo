@@ -17,10 +17,6 @@ namespace Infrastructure
             return _context.Canteens.ToList();
         }
 
-        public IEnumerable<Employee> GetAllWorkers()
-        {
-            return _context.Employee.ToList();
-        }
         public Canteen GetCanteenById(int id)
         {
             return _context.Canteens.First(c => c.Id == id);

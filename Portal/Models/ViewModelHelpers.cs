@@ -22,15 +22,14 @@ namespace Portal.Models
             {
                 Id = package.Id,
                 StudentId = package.StudentId ?? 0,
-                CanteenId = package.CanteenId ?? 0,
+               // CanteenId = package.CanteenId ?? 0,
                 Name = package.Name,
                 Price = package.Price,
                 Description = package.Description,
-                Meal = package.Meal,
-                City = package.City,
+              
                 LastUntil = package.AvailableUntil,
                 PickUp = package.PickUp,
-                /* LastUntil = package.LastUntil,*/
+                
             };
 
             return result;

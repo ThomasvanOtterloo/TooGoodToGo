@@ -3,15 +3,18 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Portal.Models;
+using System.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
+var connectionStringAuth = builder.Configuration.GetConnectionString("Security");
 builder.Services.AddDbContext<PackageDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(connectionStringAuth));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AuthDbContext>();
 
 
@@ -19,6 +22,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Employee", policy => policy.RequireClaim("Employee")));
 builder.Services.AddAuthorization(options =>
     options.AddPolicy("Student", policy => policy.RequireClaim("Student")));
+
 
 
 builder.Services.AddScoped<ICanteenRepository, CanteenEFRepository>();

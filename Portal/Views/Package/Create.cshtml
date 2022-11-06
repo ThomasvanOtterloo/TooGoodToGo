@@ -1,19 +1,19 @@
-﻿
-@model ProductModel;
+﻿@model ProductModel;
 @using Core.Domain;
 @{
     ViewData["Title"] = "Create";
-    
+
 }
 
 <h1>Create</h1>
 
-<h4>Package</h4>
+<h4>Box of food</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -25,21 +25,13 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
-            
-                <div class="mb-3">
-                    <label class="form-label">Select City</label>
-                    <select class="form-select"asp-for="City" asp-items="@Html.GetEnumSelectList<City>();" name="City"></select>
-                </div> 
 
-                <div class="mb-3"> 
-                    <label class="form-label">Select Canteen</label>
-                    <select class="form-select" asp-for="CanteenId" asp-items="@Model.CanteenItems" name="CanteenId"></select>
-                </div>
 
-                <div class="mb3">
-                <select class="form-select" multiple="multiple" asp-for="Products" asp-items="@Model.ProductsItems" name="Products"></select>
-                </div>
-            
+            <div class="mb3">
+                <label class="control-label">Select related products</label>
+                <select class="form-select" multiple="multiple" asp-for="Products" asp-items="@Model.ProductsItems"></select>
+            </div>
+
 
             <div class="form-group">
                 <label asp-for="PickUp" class="control-label">Pick up At:</label>
@@ -48,36 +40,29 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="AvailableUntil" class="control-label">Available untill:</label>
-                <input asp-for="AvailableUntil" class="form-control" />
-                <span asp-validation-for="AvailableUntil" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
                 <label asp-for="Price" class="control-label">Price</label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
 
-            
-                <div class="mb-3">
-                    <label class="form-label">Select Meal Type</label>
-                    <select class="form-select" asp-for="Meal" asp-items="@Html.GetEnumSelectList<Meal>();" name="Meal"></select>
-                </div>
-            
-                
+
+            <div class="mb-3">
+                <label class="control-label">Select Meal Type</label>
+                <select class="form-select" asp-for="Meal" asp-items="@Html.GetEnumSelectList<Meal>();" name="Meal"></select>
+            </div>
+
+
 
             <div class="form-group">
-                <input type="submit" value="Create Box" class="btn btn-primary" />
+                <input type="submit" value="Create Box" class="default-button-light" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

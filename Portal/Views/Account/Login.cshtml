@@ -1,49 +1,22 @@
 ﻿
-@model LoginModel
-@{
-    Layout = "_Layout";
-}
+@model LoginModel;
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h1 class="text-center">Login</h1>
-            <hr />
-            <div class="card">
-                <div class="card-body">
-
-                    <form method="post">
-                        <div asp-validation-summary="All" class="text-danger"></div>
-                        <input type="hidden" asp-for="ReturnUrl" />
-                            <div class="form-group">
-                                <label asp-for="Email"></label>
-                                <input asp-for="Email" class="form-control" />
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
-                        
-                            <div class="form-group">
-                                <label class="form-label" asp-for="Password">Password</label>
-                                <input asp-for="Password" class="form-control" class="form-control" />
-                                <span asp-validation-for="Password" class="text-danger"></span>
-                            </div>
-
-
-                            <div class="form-check">
-                            <input asp-for="RememberMe" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Remember me
-                            </label>
-                            </div>
-
-                            <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Login</button>
-                            </div>
-                        
-                    
-                    </form>
-                    
-                </div>
+<form asp-action="Login" asp-controller="Account" method="post">
+    <div class="login">
+        <div class="login-content">
+            <h4 style="text-align:center; color: #2b2b28">Login</h4>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <div><span asp-validation-for="Email" class="text-danger"></span></div>
+                <input asp-for="Email" class="form-control" />
             </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <div><span asp-validation-for="Password" class="text-danger"></span></div>
+                <input asp-for="Password" class="form-control" />
+            </div>
+            <button class="default-button-light" type="submit" style="margin-top: 10px; font-weight: bold;">Log In</button>
         </div>
     </div>
-</div>
+   
+</form>

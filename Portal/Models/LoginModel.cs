@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Text;
 
 namespace Portal.Models
@@ -11,21 +12,14 @@ namespace Portal.Models
     public class LoginModel
     {
         [Required]
-        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]
-        [DataType(DataType.Password)]
+        [UIHint("password")]
         public string Password { get; set; }
 
-        public bool RememberMe { get; set; }
-        
         public string ReturnUrl { get; set; } = "/";
-
-       
-
-       
-
-
     }
+
+
 }

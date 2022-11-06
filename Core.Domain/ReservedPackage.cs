@@ -15,5 +15,6 @@ namespace Core.Domain
         public int PackageId { get; set; }
         public Student Student { get; set; }
         public Package Package { get; set; }
+        public DateTime ReservedAt { get; set; }
     }
 }

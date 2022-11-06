@@ -14,231 +14,355 @@ using System.Collections;
 using Core.Domain.Services;
 using Portal.Models;
 using Microsoft.Data.SqlClient.Server;
+using NuGet.ContentModel;
 
 namespace Portal.Controllers
 {
     public class PackageController : Controller
     {
         private readonly PackageDbContext _context;
-        private readonly ICityRepository cityRepository;
-       
+        private readonly ICityRepository _cityRepository;
+        private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly IPackageRepository _packageRepository;
+        private readonly IStudentRepository _studentRepository;
+        private readonly ICanteenRepository _canteenRepository;
+        private readonly IProductRepository _productRepository;
 
-        public PackageController(PackageDbContext context, ICityRepository cityRepository)
+        public PackageController(PackageDbContext context, ICityRepository cityRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IPackageRepository packageRepository, IStudentRepository studentRepository, ICanteenRepository canteenRepository, IProductRepository productRepository)
         {
             _context = context;
-            this.cityRepository = cityRepository;
-            
+            _cityRepository = cityRepository;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            _packageRepository = packageRepository;
+            _studentRepository = studentRepository;
+            _canteenRepository = canteenRepository;
+            _productRepository = productRepository;
         }
-       
 
-        // GET: Package 
-       
         public async Task<IActionResult> Index()
         {
-                return View(await _context.Packages.ToListAsync());
+            var user = await userManager.GetUserAsync(User);
+            var student = _studentRepository.GetAllStudents().FirstOrDefault(s => s.Email == user.Email);
+
+            PackageIndexModel viewModel = new()
+            {
+                Canteens = _canteenRepository.GetAllCanteens(),
+
+                CanteenList = new List<SelectListItem>()
+            };
+
+            foreach (var canteen in viewModel.Canteens)
+            {
+                viewModel.CanteenList.Add(new SelectListItem(canteen.LocationName, canteen.Id.ToString()));
+            }
+
+
+            if (student != null)
+            {
+                viewModel.Packages = _packageRepository.GetAllPackagesByStudentCity(student);
+            }
+            else
+            {
+                viewModel.Packages = _packageRepository.GetAllAvailablePackages();
+            }
+
+
+            if (TempData["succesMessage"] != null)
+            {
+                ViewBag.Message = TempData["succesMessage"].ToString();
+                return View(viewModel);
+            }
+
+            if (TempData["succesfullyDeletedMessage"] != null)
+            {
+                ViewBag.Message = TempData["succesfullyDeletedMessage"].ToString();
+                return View(viewModel);
+            }
+
+            if (TempData["succesfullyEditedMessage"] != null)
+            {
+                ViewBag.Message = TempData["succesfullyEditedMessage"].ToString();
+                return View(viewModel);
+            }
+
+
+            return View(viewModel);
         }
 
-        public async Task<IActionResult> IndexFilter(City selectedItem, Meal meal, string Availability)
+        public async Task<IActionResult> IndexFilter(City? city, Meal? meal, string availability, int? CanteenId)
         {
-            //if (selectedItem == City.All)
-            //{
-            //    return View("Index", await _context.Packages.ToListAsync());
-            //}
+            PackageIndexModel viewModel = new()
+            {
+                Canteens = _canteenRepository.GetAllCanteens(),
+                CanteenList = new List<SelectListItem>()
+            };
 
-            return View("Index", await _context.Packages.ToListAsync());
+            foreach (var canteen in viewModel.Canteens)
+            {
+                viewModel.CanteenList.Add(new SelectListItem(canteen.LocationName, canteen.Id.ToString()));
+            }
+
+            viewModel.Packages = _packageRepository.GetPackagesByFilter(city, meal, availability, CanteenId);
+            return View("Index", viewModel);
         }
 
 
-        
-        
 
-        // GET: Jokes/Details/5
+
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Packages == null)
+            var packageById = _packageRepository.GetPackageById(id);
+
+            DetailsModel detailsModel = new()
             {
-                return NotFound();
-            }
+                Package = packageById,
+                CanteenName = packageById.Employee.Canteen.LocationName,
+                Products = packageById.Products
+            };
 
-            var Packages = await _context.Packages
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (Packages == null)
+            foreach (var product in packageById.Products)
             {
-                return NotFound();
+                if (product.ContainsAlcohol == true)
+                {
+                    detailsModel.ContainsAlcohol = true;
+                }
             }
-
-            DetailsModel detailsModel = new DetailsModel();
-            detailsModel.Package = Packages;
-            detailsModel.Products = _context.PackageProducts.Where(p => p.PackageId == id).ToList();
-            //detailsModel.CanteenName = _context.Canteens.Where(c => c.Id == Packages.CanteenId).FirstOrDefault().Name;
-
             return View(detailsModel);
         }
 
-        // GET: Package/Where?ReservedTo=logginInStudentId
-        //[Authorize(Policy = "student")]
-        public async Task<IActionResult> ReservedBoxes()
-        {
-            
-            //var reserved = await _context.Packages.Where(p => p.ReservedTo.Id == 0);
-            return View();
 
-        }
-
-
-
-        // GET: Jokes/Create
-
+        [Authorize(Policy = "Employee")]
         public IActionResult Create()
         {
-            ProductModel productModel = new ProductModel();
-            productModel.ProductsList = _context.Products.ToList();
-            productModel.Canteens = _context.Canteens.ToList();
-            productModel.Packages = _context.Packages.ToList();
-
-
-         
-            return View(productModel);
-
-
-           
+            return View(GetProductModel());
         }
-     
-        //[Authorize]
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,AvailableUntil,LastUntil,City,CanteenId,PickUp,Price,Meal,Adult,Products")] Package package)
-        {
 
-            var price = package.Price;
-            var products = package.Products;
-            if (ModelState.IsValid)
+        [Authorize]
+        [HttpPost]
+        [Authorize(Policy = "Employee")]
+        public async Task<IActionResult> Create(CreatePackageModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(GetProductModel());
+
+            var package = Map(model);
+
+            var Authuser = await userManager.GetUserAsync(User);
+            var DbUser = _context.Employee.Where(s => s.Email == Authuser.Email).FirstOrDefault();
+
+            package.AvailableUntil = DateTime.Now.AddDays(3);
+            package.EmployeeId = DbUser.Id;
+            try
             {
-                _context.Add(package);
-                await _context.SaveChangesAsync();
+                await _packageRepository.CreatePackage(package);
+                TempData["succesMessage"] = "Package succesfully created";
                 return RedirectToAction(nameof(Index));
             }
-            return View(package);
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+
+                return View(GetProductModel());
+            }
         }
 
-        // GET: Package/Edit/5
+        [Authorize(Policy = "Student")]
+        public async Task<IActionResult> ReserveBox(int? id)
+        {
+            var Package = _packageRepository.GetPackageById(id);
+
+            DetailsModel detailsModel = new()
+            {
+                Package = Package
+            };
+            return View(detailsModel);
+        }
+
+        [HttpPost, ActionName("ReserveBox")]
+        [Authorize(Policy = "Student")]
+        public async Task<IActionResult> ReserveBoxComfirm(int id)
+        {
+            var loggedInUser = await userManager.GetUserAsync(User);
+            var loggedInStudent = _studentRepository.GetStudentByEmail(loggedInUser.Email);
+            var Package = _packageRepository.GetPackageById(id);
+
+            try
+            {
+                await _packageRepository.ReservePackage(Package, loggedInStudent);
+                TempData["succesMessage"] = "Box successfully reserved. Take a look here to see your reserved boxes.";
+                return RedirectToAction(nameof(ReservedBoxes));
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        [Authorize(Policy = "Student")]
+        public async Task<IActionResult> ReservedBoxes()
+        {
+            var Authuser = await userManager.GetUserAsync(User);
+            var LoggedInStudent = _studentRepository.GetStudentByEmail(Authuser.Email);
+            var packages = _packageRepository.GetAllReservedPackagesByStudent(LoggedInStudent);
+
+            ReservedPackageModel model = new()
+            {
+                Packages = packages,
+                Student = LoggedInStudent
+            };
+
+            if (TempData["succesMessage"] != null)
+            {
+                ViewBag.Message = TempData["succesMessage"].ToString();
+                return View(model);
+            }
+            return View(model);
+        }
+
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Packages == null)
-            {
-                return NotFound();
-            }
-
-            var package = await _context.Packages.FindAsync(id);
-            if (package == null)
-            {
-                return NotFound();
-            }
-            return View(package);
+            EditPackageViewModel model = await GetDetailInfoModel(id);
+            return View(model);
         }
 
-        public async Task<IActionResult> ReservedBoxes(int? id)
+        [HttpPost, ActionName("Edit")]
+        [Authorize(Policy = "Employee")]
+        public async Task<IActionResult> EditConfirmed(int id, UpdatePackageModel model)
         {
-            if (id == null || _context.Packages == null)
-            {
-                return NotFound();
-            }
+            var package = _packageRepository.GetPackageById(id);
 
-            var package = await _context.Packages.Where(a => a.StudentId == id).ToListAsync();
-            if (package == null)
+            try
             {
-                return NotFound();
+                var UpdatePackage = Map(package, model);
+                await _packageRepository.UpdatePackage(UpdatePackage);
+                TempData["succesfullyEditedMessage"] = "Box edited successfully";
+                return RedirectToAction(nameof(Index));
             }
-            return View(package);
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                return View(await GetDetailInfoModel(id));
+            }
         }
 
 
-        //// POST: Jokes/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[Authorize]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,JokeQuestion,JokeAnswer")] Joke joke)
-        //{
-        //    if (id != joke.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(joke);
-
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!JokeExists(joke.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(joke);
-        //}
-
-
+        [Authorize(Policy = "Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Packages == null)
-            {
-                return NotFound();
-            }
+            var Package = _packageRepository.GetPackageById(id);
 
-            var Package = await _context.Packages
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (Package == null)
+            DetailsModel detailsModel = new()
             {
-                return NotFound();
-            }
-
-            DetailsModel detailsModel = new DetailsModel();
-            detailsModel.Package = Package;
+                Package = Package
+            };
 
             return View(detailsModel);
         }
 
-        // POST: Jokes/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-
+        [Authorize(Policy = "Employee")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Packages == null)
+            try
             {
-                return Problem("Entity set 'ApplicationDbContext.Joke'  is null.");
+                await _packageRepository.DeletePackage(id);
+                TempData["succesfullyDeletedMessage"] = "Box deleted successfully";
+                return RedirectToAction(nameof(Index));
             }
-            var Package = await _context.Packages.FindAsync(id);
-            if (Package != null)
+            catch (Exception e)
             {
-                _context.Packages.Remove(Package);
+                TempData["error"] = e.Message;
+                return RedirectToAction(nameof(Index));
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
-        // POST: Packages/Delete/5
 
 
-        private bool PackageExists(int id)
+        private ProductModel GetProductModel()
         {
-            return _context.Packages.Any(e => e.Id == id);
+            ProductModel productModel = new()
+            {
+                ProductsList = _productRepository.GetAllProducts().ToList(),
+                Canteens = _canteenRepository.GetAllCanteens(),
+                Packages = _packageRepository.GetAllPackages()
+            };
+            return productModel;
         }
 
+        private Package Map(CreatePackageModel model)
+        {
+            var package = new Package();
+            var products = new List<Product>();
+            model.Products.ForEach(id => products.Add(_context.Products.First(x => x.Id == id)));
+            package.Products = products;
+            package.Name = model.Name;
+            package.Description = model.Description;
+            package.Price = model.Price;
+            package.PickUp = model.PickUp;
+            package.Meal = model.Meal;
+            return package;
+        }
+
+        private async Task<EditPackageViewModel> GetDetailInfoModel(int? id)
+        {
+            var package = _packageRepository.GetPackageById(id);
+            var PackageProducts = await _context.Packages.Include(m => m.Products).FirstOrDefaultAsync(m => m.Id == id);
+            var Employee = await _context.Employee.Include(m => m.Canteen).FirstOrDefaultAsync(m => m.Id == package.EmployeeId);
+
+            EditPackageViewModel model = new()
+            {
+                ProductsList = _context.Products.ToList(),
+                Canteens = _context.Canteens.ToList(),
+                Packages = _context.Packages.ToList(),
+                Package = package,
+                CanteenName = package.Employee.Canteen.LocationName,
+                Products = package.Products,
+            };
+            foreach (var product in model.Products)
+            {
+                if (product.ContainsAlcohol == true)
+                {
+                    model.ContainsAlcohol = true;
+                }
+            }
+            return model;
+        }
+
+        private Package Map(Package package, UpdatePackageModel model)
+        {
+            var products = new List<Product>();
+            if (model.Products.Count != 0)
+            {
+                model.Products.ForEach(id => products.Add(_context.Products.First(x => x.Id == id)));
+                package.Products = products;
+            }
+            if (model.Name != null)
+            {
+                package.Name = model.Name;
+            }
+            if (model.Description != null)
+            {
+                package.Description = model.Description;
+            }
+            if (model.Price != 0)
+            {
+                package.Price = model.Price;
+            }
+            if (package.PickUp <= DateTime.Today)
+            {
+                package.PickUp = model.PickUp;
+            }
+            if (model.Meal != null || package.Meal != model.Meal)
+            {
+                package.Meal = model.Meal;
+            }
+            return package;
+        }
 
     }
 }

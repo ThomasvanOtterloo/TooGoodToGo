@@ -2,63 +2,104 @@
     ViewData["Title"] = "Home Page";
 }
 
-<!-- ======= Hero Section ======= -->
-  <section id="hero" class="hero">
-    <div class="container position-relative">
-      <div class="row gy-5" data-aos="fade-in">
-        <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
-          <h2>Welcome to <span>Impact</span></h2>
-          <p>Sed autem laudantium dolores. Voluptatem itaque ea consequatur eveniet. Eum quas beatae cumque eum quaerat.</p>
-          <div class="d-flex justify-content-center justify-content-lg-start">
-            <a href="#about" class="btn-get-started">Get Started</a>
-            <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
-          </div>
+
+
+<div class="row" style="padding-bottom: 20px;">
+    <div class="hero-text">
+        <img style="width:100%; height: 430px;" src="https://www.cnet.com/a/img/resize/f9ed259ff19a2db088e9c15a47f83ead41489123/hub/2020/10/20/77a2811c-e145-4123-bbb8-1b31f5230c49/hf-header.jpg?auto=webp&fit=crop&height=675&precrop=1094,660,x96,y193&width=1200" alt="logo" />
+    </div>
+</div>
+
+<div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+    <h3 style="padding-left: 26px; padding-top: 10px">
+        Avans
+    </h3>
+
+    <div class="col-lg-6 col-md-6">
+        <div class="block1" style="background: #683c23; padding: 15px">
+            <p style="color: #cfba83">
+                Avans Hogeschool is a training organization for higher education in the Dutch province of North Brabant.
+                Avans University of Applied Sciences provides HBO bachelor's programmes, associate degrees and HBO masters.
+                There are branches in Breda, Roosendaal, 's-Hertogenbosch and Tilburg.
+
+            </p>
         </div>
-        <div class="col-lg-6 order-1 order-lg-2">
-          <img src="assets/img/hero-img.svg" class="img-fluid" alt="" data-aos="zoom-out" data-aos-delay="100">
-        </div>
-      </div>
     </div>
 
-    <div class="icon-boxes position-relative">
-      <div class="container position-relative">
-        <div class="row gy-4 mt-5">
 
-          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="icon-box">
-              <div class="icon"><i class="bi bi-easel"></i></div>
-              <h4 class="title"><a href="" class="stretched-link">Lorem Ipsum</a></h4>
-            </div>
-          </div>
-          <!--End Icon Box -->
 
-          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon-box">
-              <div class="icon"><i class="bi bi-gem"></i></div>
-              <h4 class="title"><a href="" class="stretched-link">Sed ut perspiciatis</a></h4>
-            </div>
-          </div>
-          <!--End Icon Box -->
-
-          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="icon-box">
-              <div class="icon"><i class="bi bi-geo-alt"></i></div>
-              <h4 class="title"><a href="" class="stretched-link">Magni Dolores</a></h4>
-            </div>
-          </div>
-          <!--End Icon Box -->
-
-          <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="500">
-            <div class="icon-box">
-              <div class="icon"><i class="bi bi-command"></i></div>
-              <h4 class="title"><a href="" class="stretched-link">Nemo Enim</a></h4>
-            </div>
-          </div>
-          <!--End Icon Box -->
-
-        </div>
-      </div>
+    <div class="col-lg-6 col-md-6">
+        <img alt="FoodWaste" class="img-fluid" src="~/images/Avans.jpg" style=" height: 300px;" />
     </div>
 
-  </section>
-  <!-- End Hero Section -->
+</div>
+
+<hr class="dotted" />
+
+
+<div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+    <div class="col-lg-6 col-md-6">
+        <h3 style="padding-left: 26px; padding-top: 10px;">
+            Food Waste Wastes Money
+        </h3>
+
+        <div class="block2" style="background: #97a76e; padding: 15px; ">
+            <p style="color: #2b2a29 ">
+                It is estimated that 1/3 of your food budget is getting thrown in the trash (or compost) each week when food is left to rot in the fridge.
+                Restaurants lose money when they end the day with leftover meals that didn't sell or ingredients that won't last until the next shift.
+                Grocery stores also lose money when they dispose of products nearing their expiration dates or have a surplus of produce that isn't selling.
+            </p>
+        </div>
+
+
+        <div class="form-group">
+            <form>
+                <input type="submit" asp-controller="Package" asp-action="Index" class="default-button-dark" style="margin-left: 400px; margin-top: -30px;" value="Reserve a box" />
+
+            </form>
+        </div>
+
+
+    </div>
+
+    <div class="col-lg-6 col-md-6">
+        <img alt="FoodWaste" class="img-fluid" src="~/images/ZeroFoodWaste.webp" style=" height: 300px;" />
+    </div>
+
+</div>
+
+
+<hr class="dotted" />
+
+<div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+    <h3 style="padding-left: 26px; padding-top: 10px">
+        The Problem with Food Waste
+    </h3>
+
+    <div class="col-lg-6 col-md-6">
+        <div class="block1" style="background: #683c23; padding: 15px">
+            <p style="color: #cfba83">
+                Wasted food happens for a variety of reasons but most often occurs in our households because we don't eat it before it rots.
+                40% of what we send to landfills in the U.S. is compostable material and 22% is solely food waste. We are filling up our trash cans with edible food and it's a huge problem.
+                Food waste is one of the largest producers of greenhouse gases worldwide!
+
+            </p>
+        </div>
+        <div class="form-group">
+            <form>
+                <input type="submit" asp-controller="Home" asp-action="Vision" class="default-button-light" style="margin-left: 400px; margin-top: -30px;" value="Read more" />
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6 col-md-6">
+        <img alt="FoodWaste" class="img-fluid" src="~/images/ZeroFoodWaste.webp" style=" height: 300px;" />
+    </div>
+
+
+</div>
+

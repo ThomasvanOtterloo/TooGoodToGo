@@ -47,8 +47,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFja2FnZVxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/dev/dotnet/TooGoodToGo/Portal/Views/Package/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFja2FnZVxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/dev/dotnet/TooGoodToGo/Portal/Views/Package/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFja2FnZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/dev/dotnet/TooGoodToGo/Portal/Views/Package/ReserveBox.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFja2FnZVxSZXNlcnZlQm94LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/dev/dotnet/TooGoodToGo/Portal/Views/Package/ReservedBoxes.cshtml]

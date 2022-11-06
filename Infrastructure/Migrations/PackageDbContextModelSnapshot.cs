@@ -33,7 +33,10 @@ namespace Infrastructure.Migrations
                     b.Property<int>("City")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LocationName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -48,15 +51,17 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            City = 1,
-                            Name = "LA",
+                            City = 0,
+                            EmployeeId = 1,
+                            LocationName = "LA",
                             OfferHotMeals = true
                         },
                         new
                         {
                             Id = 2,
                             City = 1,
-                            Name = "LD 2",
+                            EmployeeId = 2,
+                            LocationName = "LB",
                             OfferHotMeals = false
                         });
                 });
@@ -72,6 +77,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("CanteenId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("EmployeeNumber")
                         .HasColumnType("int");
 
@@ -80,7 +88,28 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CanteenId")
+                        .IsUnique();
+
                     b.ToTable("Employee");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CanteenId = 1,
+                            Email = "Admin@gmail.com",
+                            EmployeeNumber = 13242321,
+                            Name = "John Lee"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CanteenId = 2,
+                            Email = "Employee2@gmail.com",
+                            EmployeeNumber = 1223334,
+                            Name = "James Lee"
+                        });
                 });
 
             modelBuilder.Entity("Core.Domain.Package", b =>
@@ -94,14 +123,11 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("AvailableUntil")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CanteenId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("City")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Meal")
                         .HasColumnType("int");
@@ -121,7 +147,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CanteenId");
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("StudentId");
 
@@ -131,114 +157,46 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            AvailableUntil = new DateTime(2022, 10, 25, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9588),
-                            CanteenId = 1,
-                            City = 1,
-                            Description = "This is a package",
-                            Meal = 1,
-                            Name = "Package 1",
-                            PickUp = new DateTime(2022, 10, 22, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9554),
-                            Price = 10m,
-                            StudentId = 1
+                            AvailableUntil = new DateTime(2022, 11, 8, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8469),
+                            Description = "This box contains a surprise",
+                            EmployeeId = 1,
+                            Meal = 0,
+                            Name = "Suprise Box",
+                            PickUp = new DateTime(2022, 11, 6, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8431),
+                            Price = 10m
                         },
                         new
                         {
                             Id = 2,
-                            AvailableUntil = new DateTime(2022, 10, 25, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9594),
-                            CanteenId = 1,
-                            City = 1,
-                            Description = "This is a package",
-                            Meal = 1,
-                            Name = "Package 2",
-                            PickUp = new DateTime(2022, 10, 22, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9592),
-                            Price = 10m,
-                            StudentId = 1
+                            AvailableUntil = new DateTime(2022, 11, 8, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8474),
+                            Description = "Half of the box is filled with bread",
+                            EmployeeId = 1,
+                            Meal = 0,
+                            Name = "Bread Box",
+                            PickUp = new DateTime(2022, 11, 6, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8472),
+                            Price = 10m
                         },
                         new
                         {
                             Id = 3,
-                            AvailableUntil = new DateTime(2022, 10, 25, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9599),
-                            City = 3,
-                            Description = "This is a package",
+                            AvailableUntil = new DateTime(2022, 11, 8, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8479),
+                            Description = "Alot of fresh left over soup ready to be served for dinner!",
+                            EmployeeId = 1,
                             Meal = 1,
-                            Name = "Package 3",
-                            PickUp = new DateTime(2022, 10, 22, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9597),
-                            Price = 10m,
-                            StudentId = 2
+                            Name = "Soup Box",
+                            PickUp = new DateTime(2022, 11, 6, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8477),
+                            Price = 10m
                         },
                         new
                         {
                             Id = 4,
-                            AvailableUntil = new DateTime(2022, 10, 25, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9604),
-                            City = 3,
-                            Description = "This is a package",
+                            AvailableUntil = new DateTime(2022, 11, 8, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8483),
+                            Description = " This box contains a gourmet meal",
+                            EmployeeId = 2,
                             Meal = 1,
-                            Name = "Package 4",
-                            PickUp = new DateTime(2022, 10, 22, 11, 2, 19, 937, DateTimeKind.Local).AddTicks(9602),
-                            Price = 10m,
-                            StudentId = 2
-                        });
-                });
-
-            modelBuilder.Entity("Core.Domain.PackageProducts", b =>
-                {
-                    b.Property<int>("PackageId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("PackageId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("PackageProducts");
-
-                    b.HasData(
-                        new
-                        {
-                            PackageId = 1,
-                            ProductId = 1,
-                            Id = 0
-                        },
-                        new
-                        {
-                            PackageId = 1,
-                            ProductId = 2,
-                            Id = 0
-                        },
-                        new
-                        {
-                            PackageId = 1,
-                            ProductId = 3,
-                            Id = 0
-                        },
-                        new
-                        {
-                            PackageId = 1,
-                            ProductId = 4,
-                            Id = 0
-                        },
-                        new
-                        {
-                            PackageId = 2,
-                            ProductId = 1,
-                            Id = 0
-                        },
-                        new
-                        {
-                            PackageId = 2,
-                            ProductId = 2,
-                            Id = 0
-                        },
-                        new
-                        {
-                            PackageId = 2,
-                            ProductId = 3,
-                            Id = 0
+                            Name = "Gourmet Box",
+                            PickUp = new DateTime(2022, 11, 6, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8481),
+                            Price = 10m
                         });
                 });
 
@@ -268,43 +226,43 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             ContainsAlcohol = false,
-                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi",
-                            Name = "Product 1"
+                            Image = "https://i0.wp.com/www.vickyvandijk.nl/wp-content/uploads/2020/04/Vicky-van-Dijk-Knapperig-wit-brood-03.jpg?fit=1500%2C2100&ssl=1",
+                            Name = "Bread"
                         },
                         new
                         {
                             Id = 2,
                             ContainsAlcohol = false,
-                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi",
-                            Name = "Product 2"
+                            Image = "https://familieoverdekook.nl/wp-content/uploads/2020/05/soep-met-courgette-en-tomaat.jpg",
+                            Name = "Soup"
                         },
                         new
                         {
                             Id = 3,
                             ContainsAlcohol = false,
-                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi",
-                            Name = "Product 3"
+                            Image = "https://www.lekkerensimpel.com/wp-content/uploads/2022/08/588A2242.jpg",
+                            Name = "pasta"
                         },
                         new
                         {
                             Id = 4,
-                            ContainsAlcohol = false,
-                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi",
-                            Name = "Product 4"
+                            ContainsAlcohol = true,
+                            Image = "https://brouwerijtroost.nl/wp-content/uploads/IMG_9831-1200x1200.jpg",
+                            Name = "Beer"
                         },
                         new
                         {
                             Id = 5,
                             ContainsAlcohol = false,
-                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi",
-                            Name = "Product 5"
+                            Image = "https://img.static-rmg.be/a/view/q75/w620/h336/4563344/gettyimages-1317960485-jpg.jpg",
+                            Name = "sla"
                         },
                         new
                         {
                             Id = 6,
                             ContainsAlcohol = false,
-                            Image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ah.nl%2Fproducten%2Fproduct%2Fwi",
-                            Name = "Product 6"
+                            Image = "https://www.oetker.nl/Recipe/Recipes/oetker.nl/nl-nl/miscellaneous/image-thumb__97330__RecipeDetail/pizza-caprese.jpg",
+                            Name = "Pizza"
                         });
                 });
 
@@ -319,6 +277,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("ReservedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("PackageId", "StudentId");
 
                     b.HasIndex("StudentId");
@@ -330,13 +291,15 @@ namespace Infrastructure.Migrations
                         {
                             PackageId = 1,
                             StudentId = 1,
-                            Id = 0
+                            Id = 0,
+                            ReservedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             PackageId = 2,
                             StudentId = 1,
-                            Id = 0
+                            Id = 0,
+                            ReservedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -348,8 +311,15 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("City")
                         .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -360,20 +330,27 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Students");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            City = 3,
+                            BirthDate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            City = 2,
+                            Email = "Student1@gmail.com",
                             Name = "Student 1",
                             PhoneNumber = "0612345678"
                         },
                         new
                         {
                             Id = 2,
-                            City = 1,
+                            BirthDate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            City = 0,
+                            Email = "Student2@gmail.com",
                             Name = "Student 2",
                             PhoneNumber = "0612345678"
                         });
@@ -392,40 +369,84 @@ namespace Infrastructure.Migrations
                     b.HasIndex("ProductsId");
 
                     b.ToTable("PackageProduct");
+
+                    b.HasData(
+                        new
+                        {
+                            PackagesId = 1,
+                            ProductsId = 1
+                        },
+                        new
+                        {
+                            PackagesId = 1,
+                            ProductsId = 2
+                        },
+                        new
+                        {
+                            PackagesId = 2,
+                            ProductsId = 3
+                        },
+                        new
+                        {
+                            PackagesId = 2,
+                            ProductsId = 4
+                        },
+                        new
+                        {
+                            PackagesId = 3,
+                            ProductsId = 5
+                        },
+                        new
+                        {
+                            PackagesId = 3,
+                            ProductsId = 6
+                        },
+                        new
+                        {
+                            PackagesId = 4,
+                            ProductsId = 1
+                        },
+                        new
+                        {
+                            PackagesId = 4,
+                            ProductsId = 2
+                        },
+                        new
+                        {
+                            PackagesId = 4,
+                            ProductsId = 3
+                        },
+                        new
+                        {
+                            PackagesId = 4,
+                            ProductsId = 4
+                        });
+                });
+
+            modelBuilder.Entity("Core.Domain.Employee", b =>
+                {
+                    b.HasOne("Core.Domain.Canteen", "Canteen")
+                        .WithOne("Employee")
+                        .HasForeignKey("Core.Domain.Employee", "CanteenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Canteen");
                 });
 
             modelBuilder.Entity("Core.Domain.Package", b =>
                 {
-                    b.HasOne("Core.Domain.Canteen", "Canteen")
+                    b.HasOne("Core.Domain.Employee", "Employee")
                         .WithMany("Packages")
-                        .HasForeignKey("CanteenId");
+                        .HasForeignKey("EmployeeId");
 
                     b.HasOne("Core.Domain.Student", "Student")
                         .WithMany("Packages")
                         .HasForeignKey("StudentId");
 
-                    b.Navigation("Canteen");
+                    b.Navigation("Employee");
 
                     b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("Core.Domain.PackageProducts", b =>
-                {
-                    b.HasOne("Core.Domain.Package", "Package")
-                        .WithMany()
-                        .HasForeignKey("PackageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Domain.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Package");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Core.Domain.ReservedPackage", b =>
@@ -463,6 +484,11 @@ namespace Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Core.Domain.Canteen", b =>
+                {
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("Core.Domain.Employee", b =>
                 {
                     b.Navigation("Packages");
                 });

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "2EHVUM+7vV/2d8WmubWPnq+HEP5r+ietpSfPaTrlIaws/TAFhASps9egwPmmh6MN7nPhBaNrbxtkXoRwX8sf8Q==",
+  "dgSpecHash": "Yi5cLdvKAvtPhWqEdcrfXUjNMYdvS1SUNgq13nUptobaSTgIR1gGLgMeEmQe6DyDkMon3RrGxTX/s3k5gUvN1g==",
   "success": true,
   "projectFilePath": "D:\\dev\\dotnet\\TooGoodToGo\\Portal\\Portal.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\OtterlooThomasvan(st\\.nuget\\packages\\chosen\\1.2.0\\chosen.1.2.0.nupkg.sha512",
     "C:\\Users\\OtterlooThomasvan(st\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\OtterlooThomasvan(st\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\OtterlooThomasvan(st\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",

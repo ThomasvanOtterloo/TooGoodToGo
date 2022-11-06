@@ -1,0 +1,162 @@
+﻿@using Core.Domain;
+@model EditPackageViewModel;
+
+<div class="row" style="padding-top: 30px">
+    <div class="col-7">
+        <h1>Details</h1>
+        <h4>Current Package</h4>
+    </div>
+    <div class="col-5">
+        <h1>Edit</h1>
+        <h4>Edited Package</h4>
+
+    </div>
+</div>
+
+<hr class="dotted" />
+<div class="row">
+    <div class="col-6">
+        <div class="col">
+            <dl class="row">
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.Package.Name)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Package.Name)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.Package.Description)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Package.Description)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.Package.Meal)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Package.Meal)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.Package.Price)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Package.Price)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.Package.Employee.Canteen.City)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Package.Employee.Canteen.City)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.CanteenName)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.CanteenName)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.Package.PickUp)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Package.PickUp)
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.Package.AvailableUntil)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Package.AvailableUntil)
+                </dd>
+
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.Package.Products)
+                </dt>
+                <dd class="col-sm-6">
+                    @foreach (var item in Model.Package.Products)
+                    {
+                        <div class="">
+                            <label>@item.Name</label>
+                        </div>
+                    }
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.ContainsAlcohol)
+                </dt>
+                <dd class="col-sm-6">
+                    <label class="rocker rocker-small">
+                        @if (Model.ContainsAlcohol == true)
+                        {
+                            <input type="checkbox" onclick="return false;" checked="checked">
+                            <span class="switch-left">Yes</span>
+                            <span class="switch-right">No</span>
+                        }
+                        else
+                        {
+                            <input type="checkbox" onclick="return false;">
+                            <span class="switch-left">Yes</span>
+                            <span class="switch-right">No</span>
+                        }
+                    </label>
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="col-1">
+        <div class="vl"></div>
+    </div>
+
+    <div class="col-md-4" style="margin-top: -30px;">
+        <form asp-action="Edit">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="control-label">Select Meal Type</label>
+                <select class="form-select" asp-for="Meal" asp-items="@Html.GetEnumSelectList<Meal>();" name="Meal">
+                </select>
+
+            </div>
+            <div class="mb3">
+                <label class="control-label">Select related products</label>
+                <select class="form-select" multiple="multiple" asp-for="Products" asp-items="@Model.ProductsItems"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PickUp" class="control-label">Pick up At:</label>
+                <input asp-for="PickUp" class="form-control" />
+                <span asp-validation-for="PickUp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label">Price</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit Box" class="default-button-light" style="font-size: 25px;  margin-top: 75px;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-8">
+        <form>
+            <input type="submit" value="Back to list" class="default-button-dark" asp-controller="Package" asp-action="Index" style="font-size: 25px;" />
+        </form>
+    </div>
+    <div class="col">
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

@@ -1,117 +1,66 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using Portal.Models;
 
-namespace UI.Controllers;
+namespace Portal.Controllers;
+
 public class AccountController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<IdentityUser> userManager;
+    private readonly SignInManager<IdentityUser> signInManager;
 
-    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    public AccountController(UserManager<IdentityUser> userMgr,
+        SignInManager<IdentityUser> signInMgr)
     {
-        _userManager = userManager;
-        _signInManager = signInManager;
+        userManager = userMgr;
+        signInManager = signInMgr;
+
+        IdentitySeedData.EnsurePopulated(userMgr).Wait();
     }
 
     [AllowAnonymous]
-    public IActionResult Register()
+    public IActionResult Login()
     {
-        var model = new LoginModel();
         return View();
-    }
-
-    /// <summary>
-    /// TODO: separate Login and Register VM's
-    /// </summary>
-    /// <param name="loginVM"></param>
-    /// <returns></returns>
-    [HttpPost]
-    [AllowAnonymous]
-    public async Task<IActionResult> RegisterAsync(LoginModel loginVM)
-    {
-
-        if (User.Identity != null && User.Identity.IsAuthenticated)
-        {
-            ModelState.AddModelError("", "Already signed in.");
-        }
-        if (!ModelState.IsValid)
-        {
-            return View();
-        }
-
-        var user = new IdentityUser(loginVM.Email);
-        var registerResult = await _userManager.CreateAsync(user, loginVM.Password);
-
-        if (registerResult.Succeeded)
-        {
-            await _userManager.AddClaimAsync(user, new Claim("UserType", "user"));
-
-            return RedirectToAction(nameof(Login), new { returnUrl = "/Guest/" });
-        }
-
-        foreach (var error in registerResult.Errors)
-        {
-            ModelState.AddModelError(error.Code, error.Description);
-        }
-        return View();
-    }
-
-    [AllowAnonymous]
-    public IActionResult Login(string returnUrl)
-    {
-        return View(new LoginModel { ReturnUrl = returnUrl, });
     }
 
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginModel loginVM)
+    public async Task<IActionResult> Login(LoginModel loginModel)
     {
         if (ModelState.IsValid)
         {
             var user =
-                await _userManager.FindByNameAsync(loginVM.Email);
+                await userManager.FindByNameAsync(loginModel.Email);
             if (user != null)
             {
-                await _signInManager.SignOutAsync();
-                if ((await _signInManager.PasswordSignInAsync(user,
-                    loginVM.Password, false, false)).Succeeded)
+                await signInManager.SignOutAsync();
+                if ((await signInManager.PasswordSignInAsync(user,
+                    loginModel.Password, false, false)).Succeeded)
                 {
-                    return RedirectToAction(nameof(Details), loginVM);
-                    //return Redirect(loginVM?.ReturnUrl ?? "/Guest/List");
+                    return Redirect("/Home/Index");
                 }
             }
         }
 
         ModelState.AddModelError("", "Invalid name or password");
-        return View();
-    }
-
-    public IActionResult Details(LoginModel loginVm)
-    {
-
-        if (User != null)
-        {
-            return View(loginVm);
-        }
-
-        return RedirectToAction("Index", "Home");
+        return View(loginModel);
     }
 
 
-    public async Task<RedirectResult> Logout(string returnUrl = "/")
+
+
+    public async Task<RedirectResult> Logout()
     {
-        await _signInManager.SignOutAsync();
-        return Redirect(returnUrl);
+        await signInManager.SignOutAsync();
+        return Redirect("/Home/Index");
     }
 
     public async Task<IActionResult> AccessDenied(string returnUrl)
     {
         return View();
     }
-
 
 }

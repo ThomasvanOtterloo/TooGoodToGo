@@ -1,61 +1,162 @@
-﻿@model DetailsModel
+﻿@using Microsoft.AspNetCore.Identity
+
+@model DetailsModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Package</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Package.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Package.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.City)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Package.City)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.PickUp)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Package.PickUp)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.Canteen)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CanteenName)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.AvailableUntil)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Package.AvailableUntil)
-        </dd>
 
 
-    </dl>
+<div class="row">
+    <div style="padding-top: 20px;
+    margin-bottom: -40px;">
+        <h1>Details</h1>
+        <h4>Package</h4>
+    </div>
+    <hr class="dotted" />
+
+    <div class="col">
+        <dl class="row">
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.Package.Name)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.Package.Name)
+            </dd>
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.Package.Description)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.Package.Description)
+            </dd>
+
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.Package.Meal)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.Package.Meal)
+            </dd>
+
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.Package.Price)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.Package.Price)
+            </dd>
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.Package.Employee.Canteen.City)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.Package.Employee.Canteen.City)
+            </dd>
+
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.Package.PickUp)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.Package.PickUp)
+            </dd>
+
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.Package.Employee.Canteen.LocationName)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.Package.Employee.Canteen.LocationName)
+            </dd>
+
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.Package.AvailableUntil)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.Package.AvailableUntil)
+            </dd>
+
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.Package.Products)
+            </dt>
+            <dd class="col-sm-6">
+                @foreach (var item in Model.Package.Products)
+                {
+                    <div class="">
+                        <label>@item.Name</label>
+                    </div>
+                }
+            </dd>
+
+
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.ContainsAlcohol)
+            </dt>
+            <dd class="col-sm-6">
+                <label class="rocker rocker-small">
+                    @if (Model.ContainsAlcohol == true)
+                    {
+                        <input type="checkbox" onclick="return false;" checked="checked">
+                        <span class="switch-left">Yes</span>
+                        <span class="switch-right">No</span>
+                    }
+                    else
+                    {
+                        <input type="checkbox" onclick="return false;">
+                        <span class="switch-left">Yes</span>
+                        <span class="switch-right">No</span>
+                    }
+                </label>
+            </dd>
+        </dl>
+    </div>
+
+    <div class="col">
+        <img src="@Model.Package.Products[0].Image" class="img-fluid" alt="..a" style="height: 300px;" />
+    </div>
+
+
+
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Package.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a> |
-    <a asp-action="Delete" asp-route-id="@Model?.Package.Id">Delete</a> |
-    <a asp-action="Reserve" asp-route-id="@Model?.Package.Id">Reserve</a>
+
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col">
+            <form>
+                <input type="submit" value="Back to list" class="default-button-light" asp-controller="Package" asp-action="Index" style="font-size: 25px;" />
+            </form>
+
+        </div>
+
+        <div class="col">
+            @if (User.HasClaim("Employee", "true"))
+            {
+                <form>
+
+                    <button type="submit" class="default-button-dark" asp-controller="Package" asp-action="Delete" asp-route-id="@Model?.Package.Id" style="font-size: 25px;">Delete</button>
+                </form>
+            }
+
+        </div>
+
+        <div class="col">
+            @if (User.HasClaim("Student", "true") && @Model.Package.StudentId == null)
+            {
+                <form>
+
+                    <button type="submit" class="default-button-dark" asp-action="ReserveBox" asp-route-id="@Model?.Package.Id" style="font-size: 25px;">Reserve</button>
+                </form>
+            }
+        </div>
+
+        <div class="col">
+            @if (User.HasClaim("Employee", "true"))
+            {
+                <form>
+                    <button type="submit" class="default-button-light" asp-action="Edit" asp-route-id="@Model?.Package.Id" style="font-size: 25px;">Edit</button>
+                </form>
+            }
+
+        </div>
+    </div>
+
 </div>

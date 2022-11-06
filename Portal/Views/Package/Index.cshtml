@@ -1,78 +1,142 @@
-﻿@model IEnumerable<Core.Domain.Package>
+﻿@model PackageIndexModel
 @using Core.Domain;
 
 @{
-    
+    ViewData["Title"] = "Index";
 }
 
-
-
-
-
-
-
-
-
-
-
+<div class="row" style="padding-bottom: 20px; ">
+    <div class="hero-text">
+        <img style="width:100%; height: 400px;" src="https://urbantastebud.com/wp-content/uploads/2016/02/s3-news-tmp-135125-13603524_726772374129343_3863346656701987185_o-2x1-940.jpg" alt="logo" />
+    </div>
+</div>
 
 <!-- ======= Our Services Section ======= -->
 <section id="services" class="services sections-bg">
     <div class="container" data-aos="fade-up">
-
         <div class="section-header">
             <h2>Our Available Boxes of food</h2>
-            <p>Each box you'll see here contains fresh food that was planned to sell in the canteens inside Avans. The left overs that we were not be able to sell, we are giving away for a good price to avoid food waste to make our school even more sustainable. </p>
+            <p>
+                Each box you'll see here contains fresh food that was planned to sell in the canteens inside Avans.
+                The left overs that we were not be able to sell,
+                we are giving away for a good price to avoid food waste to make our school even more sustainable.
+                The boxes are available for pick up at the Avans campus in Breda.
+                You can choose between a small, medium or large box based on the amount of products there are in the box.
+                Click on the "Read more" button to see the products in the box and decide if you want to buy and reserve it.
+                Remember you have to pick up the box the same day you reserved it! Have fun with your new box of food!
+            </p>
         </div>
 
-
-        
         @*Userstory 8: As a user I want to be able to filter on what type of meal i want, and a filter that will show my location as default.*@
 
         <form asp-controller="Package" asp-action="IndexFilter" method="post">
-            <div class="mb-3">
-                <label class="form-label">Select City</label>
-                <select class="form-select" asp-items="@Html.GetEnumSelectList<City>();" name="selectedItem"></select>
-            </div>
 
-            <div class="mb-3">
-                <label class="form-label">Select type of meal</label>
-                <select class="form-select" asp-items="@Html.GetEnumSelectList<Meal>();" name="meal"></select>
-            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <label class="select-label">City</label>
+                    <select class="select" asp-items="@Html.GetEnumSelectList<City>();" name="city">
+                        <option value="">All</option>
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Select Availability</label>
-                <select class="form-select" name="Availability">
-                    <option value="Available">Available</option>
-                    <option value="All">All</option>
-                    <option value="Reserved">Reserved</option>
-                </select>
-            </div>
+                <div class="col-lg-3 ">
+                    <label class="select-label">Meal</label>
+                    <select class="select" asp-items="@Html.GetEnumSelectList<Meal>();" name="meal">
+                        <option value="" selected>All</option>
+                    </select>
+                    <span class="custom-arrow"></span>
+                </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Filter</button>
+                <div class="col-lg-2" style="margin-left: -43px;">
+                    @*Userstory 2:ALS KANTINEMEDEWERKER WIL IK KUNNEN ZIEN WELKE PAKKETTEN ER AANGEBODEN WORDEN, ZODAT IK WEET WAT HET HUIDIGE AANBOD AL IS.*@
+                    <label class="select-label">Canteen</label>
+                    <select class="select" asp-items="@Model.CanteenList" asp-for="CanteenId">
+                        <option value="" selected>All</option>
+                    </select>
+
+                    <span class="custom-arrow"></span>
+                </div>
+
+                <div class="col-lg-3">
+                    <label class="select-label">Availability</label>
+                    <select class="select" name="Availability">
+                        <option value="Available">Available</option>
+                        <option value="">All</option>
+                        <option value="Reserved">Reserved</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-1" style="margin-top: -10px;">
+                    <button type="submit" class="default-button-dark" style="position: unset;">Filter</button>
+                </div>
             </div>
         </form>
-       
+
+        <hr class="dotted" />
+
+
         <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
-            @foreach (var item in Model) 
+            @foreach (var item in Model.Packages)
             {
-            
                 <div class="col-lg-4 col-md-6">
                     <div class="service-item  position-relative">
-                        <div class="icon">
-                           
-                            <img src="~/images/PickUpIcon.png" alt="PickUpIcon" width="40" height="40">
-                            <i>@Html.DisplayFor(modelItem => item.PickUp)</i>
+                        <img class="card-image" src="@item.Products[0].Image" alt="image" />
+                        <div class="row">
+                            <div class="col-9">
+                                <div class="icon">
+                                    <img src="~/images/PickUpIcon.png" alt="PickUpIcon" width="40" height="40">
+                                    <i>@Html.DisplayFor(modelItem => item.PickUp)</i>
+                                </div>
+                            </div>
+
+                            <div class="col-3">
+                                <div class="icon">
+                                    <img src="~/images/priceTag.png" alt="PickUpIcon" width="40" height="40">
+                                    <i> € @Html.DisplayFor(modelItem => item.Price)</i>
+                                </div>
+                            </div>
                         </div>
-                        <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
-                        <h1>@Html.DisplayFor(modelItem => item.City)</h1>
-                        <p>@Html.DisplayFor(modelItem => item.Description)</p>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
+
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="icon">
+                                        <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="icon">
+                                        <i style="right: 3px;">@Html.DisplayFor(modelItem => item.Employee.Canteen.City)</i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="icon">
+                                        <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="icon">
+                                        <a asp-action="Details" asp-route-id="@item.Id" style="box-shadow: 10px 10px #2b2b28;" class="readmore stretched-link default-button-dark">Read more <i class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div><!-- End Service Item -->
-            
+                </div>
             }
         </div>
     </div>
-</section><!-- End Our Services Section -->
+</section>
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.Message");
+        }
+    </script>
+}

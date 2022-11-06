@@ -18,6 +18,12 @@ namespace Infrastructure
             return _context.Students.First(s => s.Id == id);
         }
 
+        public Student GetStudentByEmail(string email)
+        {
+            return _context.Students.First(s => s.Email == email);
+        }
+
+
         public IEnumerable<Student> GetAllStudents()
         {
             return _context.Students.ToList();
@@ -26,8 +32,16 @@ namespace Infrastructure
 
         public Student? AddStudent(Student student)
         {
-            DateOnly reference = new(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-            if (student.BirthDate > reference) return null;
+            DateTime minimumAge = DateTime.Now.AddYears(-16);
+            if (student.BirthDate > minimumAge)
+                throw new ArgumentException("Student must be at least 16 years old");
+            if (student.Email == null)
+                throw new ArgumentException("Student must have an email");
+            if (student.Name == null)
+                throw new ArgumentException("Student must have a name");
+          
+
+            _context.Students.Add(student);
             return student;
 
         }
