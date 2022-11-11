@@ -27,11 +27,5 @@ namespace Infrastructure
                 City.Tilburg
             };
         }
-        
-
-        
-
     }
-
-    
 }

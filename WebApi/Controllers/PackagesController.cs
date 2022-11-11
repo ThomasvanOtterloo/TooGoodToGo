@@ -19,11 +19,11 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Package>> GetAllPackages()
+        public ActionResult<List<Package>> Get()
         {
-            return Ok(_packageRepository.GetAllPackages().ToList());
+            return Ok(_packageRepository.GetAllAvailablePackages());
         }
-
+        
         [HttpGet("{id}")]
         public ActionResult<Package> GetPackageById(int id)
         {

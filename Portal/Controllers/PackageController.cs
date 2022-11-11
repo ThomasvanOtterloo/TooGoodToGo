@@ -41,6 +41,7 @@ namespace Portal.Controllers
             _productRepository = productRepository;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var user = await userManager.GetUserAsync(User);
@@ -91,6 +92,7 @@ namespace Portal.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> IndexFilter(City? city, Meal? meal, string availability, int? CanteenId)
         {
             PackageIndexModel viewModel = new()
@@ -107,8 +109,6 @@ namespace Portal.Controllers
             viewModel.Packages = _packageRepository.GetPackagesByFilter(city, meal, availability, CanteenId);
             return View("Index", viewModel);
         }
-
-
 
 
         public async Task<IActionResult> Details(int? id)
@@ -250,7 +250,7 @@ namespace Portal.Controllers
 
 
         [Authorize(Policy = "Employee")]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             var Package = _packageRepository.GetPackageById(id);
 
