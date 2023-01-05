@@ -13,7 +13,7 @@ namespace Core.Domain
         public string Email { get; set; }
         
 
-     
+        //[AgeValidation(ErrorMessage = "Age must be 16 or older")]
         public DateTime BirthDate { get; set; }
         public string? PhoneNumber { get; set; }
         public City City { get; set; }

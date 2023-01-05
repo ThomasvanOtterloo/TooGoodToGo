@@ -50,35 +50,6 @@ public class AccountController : Controller
     }
 
 
-    [AllowAnonymous]
-    public IActionResult Register()
-    {
-        return View();
-    }
-
-
-    [HttpPost]
-    [AllowAnonymous]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(UserRegisterModel userModel)
-    {
-        if (ModelState.IsValid)
-        {
-            return View(userModel);
-        }
-
-        var user = new IdentityUser { UserName = userModel.Email, Email = userModel.Email };
-        var result = await userManager.CreateAsync(user, userModel.Password);
-        
-        if (result.Succeeded)
-        {
-            await signInManager.SignInAsync(user, isPersistent: false);
-            return RedirectToAction("Index", "Home");
-        }
-
-        return View();
-    }
-
 
 
     public async Task<RedirectResult> Logout()

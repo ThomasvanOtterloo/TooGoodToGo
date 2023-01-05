@@ -1,28 +1,4 @@
-﻿@model UserRegisterModel
+﻿
 
 
-<form asp-action="Register" asp-controller="Account" method="post">
-    <div class="register">
-        <div class="login-content">
-            <h4 style="text-align:center; color: #2b2b28">Register as student!</h4>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <div><span asp-validation-for="Email" class="text-danger"></span></div>
-                <input asp-for="Email" class="form-control" />
-            </div>
 
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <div><span asp-validation-for="Password" class="text-danger"></span></div>
-                <input asp-for="Password" class="form-control" />
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="PasswordCheck"></label>
-                <div><span asp-validation-for="PasswordCheck" class="text-danger"></span></div>
-                <input asp-for="PasswordCheck" class="form-control" />
-            </div>
-            <button class="default-button-light" type="submit" style="margin-top: 10px; font-weight: bold;">Register</button>
-        </div>
-    </div>
-</form>
