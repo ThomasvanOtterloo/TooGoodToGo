@@ -23,7 +23,7 @@ namespace Core.Domain
         [Display(Name = "Pick up at")]
         public DateTime PickUp { get; set; }
 
-        
+        [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0")]
         [Column(TypeName = "decimal(18,2)")]
         public double Price { get; set; }
         public Meal Meal { get; set; } 

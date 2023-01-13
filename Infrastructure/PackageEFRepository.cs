@@ -177,6 +177,8 @@ namespace Infrastructure
                 packages = packages.Where(p => p.StudentId == null).OrderBy(p => p.PickUp);
             if (availability == "Reserved")
                 packages = packages.Where(p => p.StudentId != null).OrderBy(p => p.PickUp);
+            if (availability == "All")
+                packages = packages.OrderBy(p => p.PickUp);
             if (canteen != null)
                 packages = packages.Where(p => p.Employee.Canteen.Id == canteen).OrderBy(p => p.PickUp);
             return packages.ToList();
