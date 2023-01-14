@@ -30,6 +30,7 @@ namespace Core.Domain
 
         [Display(Name = "Available until")]
         public DateTime AvailableUntil { get; set; }
+        [Required(ErrorMessage = "Please add at least one product to the package")]
         public List<Product>? Products { get; set; }
 
         public static DateOnly GetReadableDate(DateTime date)
