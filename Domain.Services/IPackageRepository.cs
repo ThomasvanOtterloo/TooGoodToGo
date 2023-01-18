@@ -7,7 +7,7 @@
         IEnumerable<Package> GetAllPackagesByStudentCity(Student student);
         IEnumerable<Package> GetAllAvailablePackages();
         IEnumerable<Package> GetAllReservedPackagesByStudent(Student student);
-        
+      
         IEnumerable<Package> GetPackageCanteenFiltered(Canteen canteen);
         IEnumerable<Package> GetAllPackagesMealFiltered(Meal meal);
         IEnumerable<Package> GetAllPackagesAvailabilityFiltered(String option);

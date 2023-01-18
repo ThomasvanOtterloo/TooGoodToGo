@@ -1,19 +1,28 @@
 ﻿using Core.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Models
 {
     public class NewPackageDTO
     {
-        public int Id { get; set; }
+        [Required]
         public string? Name { get; set; }
+
+        [Required(ErrorMessage = "Please enter a description")]
+        public string? Description { get; set; }
+
+        [Required(ErrorMessage = "Please select a city")]
         public City City { get; set; }
-        public Canteen? Canteen { get; set; }
+
+        public int CanteenId { get; set; }
+
         public DateTime PickUp { get; set; }
+
         public double Price { get; set; }
+
         public Meal Meal { get; set; }
-        public bool Adult { get; set; }
-        public Student? Sold { get; set; }
-        public DateTime LastUntil { get; set; }
+
+        public List<int>? Products { get; set; } = new List<int>();
 
     }
 }

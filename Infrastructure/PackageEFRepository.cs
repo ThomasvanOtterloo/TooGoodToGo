@@ -88,7 +88,12 @@ namespace Infrastructure
 
         public IEnumerable<Package> GetAllPackages()
         {
-            return _context.Packages.ToList();
+            return _context.Packages
+                .Include(p => p.Products)
+                .Include(o => o.Employee)
+                .ThenInclude(c => c.Canteen)
+                .OrderBy(p => p.PickUp)
+                .ToList();
         }
 
         public IEnumerable<Package> GetAllReservedPackagesByStudent(Student student)
@@ -114,8 +119,10 @@ namespace Infrastructure
             if (GetPackageById(Id).StudentId != null)
                 throw new ArgumentException("Package is reserved and cannot be deleted or edited");
 
+            var test = GetPackageById(Id);
 
             _context.Packages.Remove(_context.Packages.First(p => p.Id == Id));
+            _context.SaveChangesAsync();
             return Task.CompletedTask;
         }
 
