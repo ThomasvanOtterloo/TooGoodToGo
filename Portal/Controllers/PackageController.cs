@@ -41,6 +41,7 @@ namespace Portal.Controllers
             _productRepository = productRepository;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var user = await userManager.GetUserAsync(User);

@@ -98,8 +98,8 @@ namespace Infrastructure
               new Student
               {
                   Id = 2,
-                  Name = "Student 2",
-                  Email = "Student2@gmail.com",
+                  Name = "Thomas",
+                  Email = "Thomas@gmail.com",
                   BirthDate = new DateTime(2000, 1, 1),
                   PhoneNumber = "0612345678",
                   City = City.Breda

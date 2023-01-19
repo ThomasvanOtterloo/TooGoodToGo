@@ -157,45 +157,45 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            AvailableUntil = new DateTime(2022, 11, 8, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8469),
+                            AvailableUntil = new DateTime(2023, 1, 22, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1318),
                             Description = "This box contains a surprise",
                             EmployeeId = 1,
                             Meal = 0,
                             Name = "Suprise Box",
-                            PickUp = new DateTime(2022, 11, 6, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8431),
+                            PickUp = new DateTime(2023, 1, 20, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1271),
                             Price = 10m
                         },
                         new
                         {
                             Id = 2,
-                            AvailableUntil = new DateTime(2022, 11, 8, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8474),
+                            AvailableUntil = new DateTime(2023, 1, 22, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1324),
                             Description = "Half of the box is filled with bread",
                             EmployeeId = 1,
                             Meal = 0,
                             Name = "Bread Box",
-                            PickUp = new DateTime(2022, 11, 6, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8472),
+                            PickUp = new DateTime(2023, 1, 20, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1321),
                             Price = 10m
                         },
                         new
                         {
                             Id = 3,
-                            AvailableUntil = new DateTime(2022, 11, 8, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8479),
+                            AvailableUntil = new DateTime(2023, 1, 22, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1329),
                             Description = "Alot of fresh left over soup ready to be served for dinner!",
                             EmployeeId = 1,
                             Meal = 1,
                             Name = "Soup Box",
-                            PickUp = new DateTime(2022, 11, 6, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8477),
+                            PickUp = new DateTime(2023, 1, 20, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1326),
                             Price = 10m
                         },
                         new
                         {
                             Id = 4,
-                            AvailableUntil = new DateTime(2022, 11, 8, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8483),
+                            AvailableUntil = new DateTime(2023, 1, 22, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1333),
                             Description = " This box contains a gourmet meal",
                             EmployeeId = 2,
                             Meal = 1,
                             Name = "Gourmet Box",
-                            PickUp = new DateTime(2022, 11, 6, 3, 19, 46, 309, DateTimeKind.Local).AddTicks(8481),
+                            PickUp = new DateTime(2023, 1, 20, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1331),
                             Price = 10m
                         });
                 });
@@ -350,8 +350,8 @@ namespace Infrastructure.Migrations
                             Id = 2,
                             BirthDate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             City = 0,
-                            Email = "Student2@gmail.com",
-                            Name = "Student 2",
+                            Email = "Thomas@gmail.com",
+                            Name = "",
                             PhoneNumber = "0612345678"
                         });
                 });

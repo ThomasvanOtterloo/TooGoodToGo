@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(PackageDbContext))]
-    [Migration("20221103171546_smallfixOnCanteenOb")]
-    partial class smallfixOnCanteenOb
+    [Migration("20230119014606_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -131,6 +131,9 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Meal")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -156,41 +159,45 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            AvailableUntil = new DateTime(2022, 11, 6, 18, 15, 45, 551, DateTimeKind.Local).AddTicks(4970),
+                            AvailableUntil = new DateTime(2023, 1, 22, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1318),
                             Description = "This box contains a surprise",
                             EmployeeId = 1,
+                            Meal = 0,
                             Name = "Suprise Box",
-                            PickUp = new DateTime(2022, 11, 3, 18, 15, 45, 551, DateTimeKind.Local).AddTicks(4936),
+                            PickUp = new DateTime(2023, 1, 20, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1271),
                             Price = 10m
                         },
                         new
                         {
                             Id = 2,
-                            AvailableUntil = new DateTime(2022, 11, 6, 18, 15, 45, 551, DateTimeKind.Local).AddTicks(4976),
+                            AvailableUntil = new DateTime(2023, 1, 22, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1324),
                             Description = "Half of the box is filled with bread",
                             EmployeeId = 1,
+                            Meal = 0,
                             Name = "Bread Box",
-                            PickUp = new DateTime(2022, 11, 3, 18, 15, 45, 551, DateTimeKind.Local).AddTicks(4974),
+                            PickUp = new DateTime(2023, 1, 20, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1321),
                             Price = 10m
                         },
                         new
                         {
                             Id = 3,
-                            AvailableUntil = new DateTime(2022, 11, 6, 18, 15, 45, 551, DateTimeKind.Local).AddTicks(4981),
+                            AvailableUntil = new DateTime(2023, 1, 22, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1329),
                             Description = "Alot of fresh left over soup ready to be served for dinner!",
                             EmployeeId = 1,
+                            Meal = 1,
                             Name = "Soup Box",
-                            PickUp = new DateTime(2022, 11, 3, 18, 15, 45, 551, DateTimeKind.Local).AddTicks(4979),
+                            PickUp = new DateTime(2023, 1, 20, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1326),
                             Price = 10m
                         },
                         new
                         {
                             Id = 4,
-                            AvailableUntil = new DateTime(2022, 11, 6, 18, 15, 45, 551, DateTimeKind.Local).AddTicks(4985),
+                            AvailableUntil = new DateTime(2023, 1, 22, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1333),
                             Description = " This box contains a gourmet meal",
                             EmployeeId = 2,
+                            Meal = 1,
                             Name = "Gourmet Box",
-                            PickUp = new DateTime(2022, 11, 3, 18, 15, 45, 551, DateTimeKind.Local).AddTicks(4983),
+                            PickUp = new DateTime(2023, 1, 20, 2, 46, 6, 509, DateTimeKind.Local).AddTicks(1331),
                             Price = 10m
                         });
                 });
@@ -272,6 +279,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("ReservedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("PackageId", "StudentId");
 
                     b.HasIndex("StudentId");
@@ -283,13 +293,15 @@ namespace Infrastructure.Migrations
                         {
                             PackageId = 1,
                             StudentId = 1,
-                            Id = 0
+                            Id = 0,
+                            ReservedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             PackageId = 2,
                             StudentId = 1,
-                            Id = 0
+                            Id = 0,
+                            ReservedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -300,6 +312,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("City")
                         .HasColumnType("int");
@@ -326,6 +341,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            BirthDate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             City = 2,
                             Email = "Student1@gmail.com",
                             Name = "Student 1",
@@ -334,9 +350,10 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 2,
+                            BirthDate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             City = 0,
-                            Email = "Student2@gmail.com",
-                            Name = "Student 2",
+                            Email = "Thomas@gmail.com",
+                            Name = "",
                             PhoneNumber = "0612345678"
                         });
                 });
