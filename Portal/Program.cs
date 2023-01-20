@@ -10,10 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Default");
 var connectionStringAuth = builder.Configuration.GetConnectionString("Security");
 builder.Services.AddDbContext<PackageDbContext>(options => options.UseSqlServer(connectionString));
-
 builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(connectionStringAuth));
-
-
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AuthDbContext>();
 
