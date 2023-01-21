@@ -10,6 +10,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Controllers
 {
@@ -93,10 +94,18 @@ namespace WebApi.Controllers
             try
             {
                 var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
-                var DbUser = _employeeRepository.GetEmployeeByEmail(user.Email);
-                
+                Employee? employee = null;
+                try
+                {
+                    employee = _employeeRepository.GetEmployeeByEmail(user.Email);
+                }
+                catch
+                {
+                    return StatusCode(400, new { error = "An error occurred", message = "Admin role not found!", statusCode = 400 });
+                }
+
                 package.AvailableUntil = DateTime.Now.AddDays(3);
-                package.EmployeeId = DbUser.Id;
+                package.EmployeeId = employee.Id;
                 var products = new List<Product>();
                 var getAllProducts = _productRepository.GetAllProducts();
 
@@ -105,12 +114,11 @@ namespace WebApi.Controllers
 
                 Console.WriteLine("asdasd" + package.Products);
                 await _packageRepository.CreatePackage(package);
-                return Ok("Package created!");
+                return StatusCode(200, new { message = "Package successfully updated", statusCode = 200 });
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
-                return StatusCode((400), "You are not a Admin, you can't create a package! or else something went wrong"+  e.Message);
+                return StatusCode((400), e.Message);
             }
         }
 
@@ -121,7 +129,15 @@ namespace WebApi.Controllers
             try
             {
                 var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
-                var DbUser = _employeeRepository.GetEmployeeByEmail(user.Email);
+                Employee? employee = null;
+                try
+                {
+                    employee = _employeeRepository.GetEmployeeByEmail(user.Email);
+                }
+                catch
+                {
+                    return StatusCode(400, new { error = "An error occurred", message = "Admin role not found!", statusCode = 400 });
+                }
                 var newPackage = _packageRepository.GetPackageById(id);
                 if (newPackage == null) return NotFound();
                 newPackage.Name = package.Name;
@@ -136,13 +152,12 @@ namespace WebApi.Controllers
                 newPackage.Products = products;
 
                 await _packageRepository.UpdatePackage(newPackage);
-              
-                return Ok("Updated package!");
+
+                return StatusCode(200, new { message = "Package successfully updated", statusCode = 200 });
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message,"asdasd" , package);
-                return StatusCode((400), "You are not a Admin, you can't create a package! If you are, Error: " + e.Message);
+                return StatusCode((400), e.Message);
             }
         }
 
@@ -154,7 +169,15 @@ namespace WebApi.Controllers
             {
 
                 var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
-                var DbUser = _employeeRepository.GetEmployeeByEmail(user.Email);
+                Employee? employee = null;
+                try
+                {
+                    employee = _employeeRepository.GetEmployeeByEmail(user.Email);
+                }
+                catch
+                {
+                    return StatusCode(400, new { error = "An error occurred", message = "Admin role not found!", statusCode = 400 });
+                }
                 await _packageRepository.DeletePackage(id);
                 return Ok("Package deleted!");
             }
@@ -169,13 +192,18 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<ActionResult<List<Package>>> GetAllReservedPackagesAsync()
         {
-            
-        
             try
             {
                 var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
-                var student = _studentRepository.GetStudentByEmail(user.Email);
-                
+                Student? student = null;
+                try
+                {
+                     student = _studentRepository.GetStudentByEmail(user.Email);
+                }
+                catch
+                {
+                    return StatusCode(400, new { error = "An error occurred", message = "Student role not found!", statusCode = 400 });
+                }
 
                 var packages = _packageRepository.GetAllReservedPackagesByStudent(student).ToList();
 
@@ -189,9 +217,9 @@ namespace WebApi.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
 
-                return StatusCode(500, $"An error occurred: You are probably not a student, are you!?");
+                return StatusCode(400, new { error = "An error occurred", message = e.Message, statusCode = 400 });
+
             }
         }
 
@@ -244,17 +272,24 @@ namespace WebApi.Controllers
             try
             {
                 var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
-                var student = _studentRepository.GetStudentByEmail(user.Email);
+                Student? student = null;
+                try
+                {
+                    student = _studentRepository.GetStudentByEmail(user.Email);
+                }
+                catch
+                {
+                    return StatusCode(400, new { error = "An error occurred", message = "Student role not found!", statusCode = 400 });
+                }
                 var package = _packageRepository.GetPackageById(id);
                 if (package == null) return NotFound("Package not found");
 
                 await _packageRepository.ReservePackage(package, student);
-                return Ok("You Reserved package: "+ package.Id);
+                return StatusCode(200, new {message = "You Reserved package: " + package.Id, statusCode = 200 });
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
-                return StatusCode(500, $"An error occurred: You are probably not a student, are you!?" + e.Message);
+                return StatusCode(400, new { error = "An error occurred", message = e.Message, statusCode = 400 });
             }
         }
     }
