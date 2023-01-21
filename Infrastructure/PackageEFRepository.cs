@@ -133,8 +133,14 @@ namespace Infrastructure
                 throw new ArgumentException("Package does not exist");
             if (package.StudentId != null)
                 throw new ArgumentException("Box is already reserved, Please take a look at our available boxes");
-            if (student.BirthDate > package.PickUp.AddYears(-18))
-                throw new ArgumentException("Student is not old enough to reserve this box");
+
+            // check if package products contain alcohol
+            if (package.Products.Any(p => p.ContainsAlcohol == true))
+            {
+                if (student.BirthDate > package.PickUp.AddYears(-18))
+                    throw new ArgumentException("Student is not old enough to reserve this box");
+            }
+           
             if (GetAllReservedPackagesByStudent(student).Any(p => p.PickUp.Date == package.PickUp.Date))
                 throw new ArgumentException("You already reserved a box on that day today. You are limited to 1 box a day.");
 
