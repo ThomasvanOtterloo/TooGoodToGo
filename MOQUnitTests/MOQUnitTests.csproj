@@ -23,9 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TooGoodToGo\Core.Domain\Core.Domain.csproj" />
-    <ProjectReference Include="..\TooGoodToGo\Domain.Services\Core.Domain.Services.csproj" />
-    <ProjectReference Include="..\TooGoodToGo\Portal\Portal.csproj" />
+    <ProjectReference Include="..\Core.Domain\Core.Domain.csproj" />
+    <ProjectReference Include="..\Domain.Services\Core.Domain.Services.csproj" />
+    <ProjectReference Include="..\Portal\Portal.csproj" />
   </ItemGroup>
 
 </Project>

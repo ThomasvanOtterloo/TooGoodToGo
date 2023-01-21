@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Domain.Services", "Dom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portal", "Portal\Portal.csproj", "{C70675F6-B623-4F2D-B049-9EC87FCD7E71}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MOQUnitTests", "..\MOQUnitTests\MOQUnitTests.csproj", "{35CE11FC-D7BC-42A1-8C85-C807FF91B0BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MOQUnitTests", "MOQUnitTests\MOQUnitTests.csproj", "{F5B4F213-43E8-4B97-AC16-4D37A2140F85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{C70675F6-B623-4F2D-B049-9EC87FCD7E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C70675F6-B623-4F2D-B049-9EC87FCD7E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C70675F6-B623-4F2D-B049-9EC87FCD7E71}.Release|Any CPU.Build.0 = Release|Any CPU
-		{35CE11FC-D7BC-42A1-8C85-C807FF91B0BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35CE11FC-D7BC-42A1-8C85-C807FF91B0BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35CE11FC-D7BC-42A1-8C85-C807FF91B0BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35CE11FC-D7BC-42A1-8C85-C807FF91B0BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5B4F213-43E8-4B97-AC16-4D37A2140F85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5B4F213-43E8-4B97-AC16-4D37A2140F85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5B4F213-43E8-4B97-AC16-4D37A2140F85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5B4F213-43E8-4B97-AC16-4D37A2140F85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
